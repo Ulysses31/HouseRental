@@ -10,6 +10,11 @@ using CleanArchitecture.Application.Repository.Interfaces.FloorType;
 using CleanArchitecture.Application.Repository.Interfaces.FrameType;
 using CleanArchitecture.Application.Repository.Interfaces.GoogleMapPlace;
 using CleanArchitecture.Application.Repository.Interfaces.HeatingSystem;
+using CleanArchitecture.Application.Repository.Interfaces.HeatingType;
+using CleanArchitecture.Application.Repository.Interfaces.InteriorFeature;
+using CleanArchitecture.Application.Repository.Interfaces.Photo;
+using CleanArchitecture.Application.Repository.Interfaces.PowerType;
+using CleanArchitecture.Application.Repository.Interfaces.SuitableFor;
 using System;
 
 namespace CleanArchitecture.Application.Repository.Interfaces
@@ -78,5 +83,30 @@ namespace CleanArchitecture.Application.Repository.Interfaces
 		/// IHeatingSystemRepo interface
 		/// </summary>
 		IHeatingSystemRepo HeatingSystemRepo { get; }
+
+		/// <summary>
+		/// IHeatingTypeRepo interface
+		/// </summary>
+		IHeatingTypeRepo HeatingTypeRepo { get; }
+
+		/// <summary>
+		/// IInteriorFeatureRepo interace
+		/// </summary>
+		IInteriorFeatureRepo InteriorFeatureRepo { get; }
+
+		/// <summary>
+		/// IPhotoRepo interface
+		/// </summary>
+		IPhotoRepo PhotoRepo { get; }
+
+		/// <summary>
+		/// PowerTypeRepo interface
+		/// </summary>
+		IPowerTypeRepo PowerTypeRepo { get; }
+
+		/// <summary>
+		/// ISuitableForRepo interface
+		/// </summary>
+		ISuitableForRepo SuitableForRepo { get; }
 	}
 }

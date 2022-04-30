@@ -1,10 +1,10 @@
-﻿using CleanArchitecture.Domain.Entities;
+﻿using CleanArchitecture.Domain.Common;
+using CleanArchitecture.Domain.Entities;
 using CleanArchitecture.Domain.Interfaces;
-using System;
 
 namespace CleanArchitecture.Domain.DTOs
 {
-	public class PhotosDto : IMapFrom<Photos>
+	public class PhotosDto : AuditableEntity, IMapFrom<Photos>
 	{
 		public int PhotoID { get; set; }
 		public int ClassifiedID { get; set; }

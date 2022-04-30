@@ -1,10 +1,11 @@
 ﻿using CleanArchitecture.Domain.Common;
-using System;
+using CleanArchitecture.Domain.Entities;
+using CleanArchitecture.Domain.Interfaces;
 using System.ComponentModel.DataAnnotations;
 
 namespace CleanArchitecture.Domain.DTOs
 {
-	public class InteriorFeatureDto : AuditableEntity
+	public class InteriorFeatureDto : AuditableEntity, IMapFrom<InteriorFeature>
 	{
 		public int InteriorFeaturesID { get; set; }
 

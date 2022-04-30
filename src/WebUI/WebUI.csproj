@@ -87,7 +87,7 @@
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-	  <DocumentationFile>E:\My Backup\My_Workspace\Visual_Studio_2019\Projects\.NET\Spitogatos\ServerClient\src\WebUI\CleanArchitecture.WebUI.xml</DocumentationFile>
+	  <DocumentationFile>C:\Users\ciordanidis\Documents\Visual Studio 2019\Projects\HouseRental\src\WebUI\CleanArchitecture.WebUI.xml</DocumentationFile>
 	</PropertyGroup>
 
 	<!--<Target Name="NSwag" AfterTargets="PostBuildEvent" Condition=" '$(Configuration)' == 'Debug' ">

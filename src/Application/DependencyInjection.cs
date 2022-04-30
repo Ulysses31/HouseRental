@@ -13,6 +13,11 @@ using CleanArchitecture.Application.MediatR.FloorType.Services;
 using CleanArchitecture.Application.MediatR.FrameType.Services;
 using CleanArchitecture.Application.MediatR.GoogleMapPlace.Services;
 using CleanArchitecture.Application.MediatR.HeatingSystem.Services;
+using CleanArchitecture.Application.MediatR.HeatingType.Services;
+using CleanArchitecture.Application.MediatR.InteriorFeature.Services;
+using CleanArchitecture.Application.MediatR.Photos.Services;
+using CleanArchitecture.Application.MediatR.PowerType.Services;
+using CleanArchitecture.Application.MediatR.SuitableFor.Services;
 using CleanArchitecture.Application.Repository;
 using CleanArchitecture.Application.Repository.Interfaces;
 using FluentValidation;
@@ -53,6 +58,11 @@ namespace CleanArchitecture.Application
 			services.AddScoped<FrameTypeService, FrameTypeService>();
 			services.AddScoped<GoogleMapPlaceService, GoogleMapPlaceService>();
 			services.AddScoped<HeatingSystemService, HeatingSystemService>();
+			services.AddScoped<HeatingTypeService, HeatingTypeService>();
+			services.AddScoped<InteriorFeatureService, InteriorFeatureService>();
+			services.AddScoped<PhotosService, PhotosService>();
+			services.AddScoped<PowerTypeService, PowerTypeService>();
+			services.AddScoped<SuitableForService, SuitableForService>();
 
 			return services;
 		}

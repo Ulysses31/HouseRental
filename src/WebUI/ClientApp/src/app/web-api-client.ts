@@ -7323,6 +7323,3051 @@ export class HeatingSystemClient implements IHeatingSystemClient {
     }
 }
 
+export interface IHeatingTypeClient {
+    /**
+     * Gets the database HeatingType with pagination.
+     * @param listId (optional) 
+     * @param pageNumber (optional) 
+     * @param pageSize (optional) 
+     * @return PaginatedList HeatingTypeDto
+     */
+    getHeatingTypeWithPagination(listId: number | undefined, pageNumber: number | undefined, pageSize: number | undefined): Observable<SlApiResponseOfPaginatedListOfHeatingTypeDtoAndObject>;
+    /**
+     * Create a new HeatingType
+     * @param heatingTypeDto HeatingTypeDto
+     * @return SlApiResponse HeatingTypeDto
+     */
+    createHeatingType(heatingTypeDto: HeatingTypeDto): Observable<SlApiResponseOfHeatingTypeDtoAndObject>;
+    /**
+     * Gets the specified HeatingType.
+     * @return PaginatedList HeatingTypeDto
+     */
+    getHeatingTypeById(id: number): Observable<SlApiResponseOfHeatingTypeDtoAndObject>;
+    /**
+     * Update the specified HeatingType
+     * @param heatingTypeDto HeatingTypeDto
+     * @return SlApiResponse HeatingTypeDto
+     */
+    updateHeatingType(id: number, heatingTypeDto: HeatingTypeDto): Observable<SlApiResponseOfHeatingTypeDtoAndObject>;
+    /**
+     * Delete the specified HeatingType
+     * @param id int
+     * @return SlApiResponse HeatingTypeDto
+     */
+    deleteHeatingType(id: number): Observable<SlApiResponseOfHeatingTypeDtoAndObject>;
+    /**
+     * Virtualy delete the specified HeatingType
+     * @param id int
+     * @return SlApiResponse HeatingTypeDto
+     */
+    disableEnableHeatingType(id: number): Observable<SlApiResponseOfHeatingTypeDtoAndObject>;
+}
+
+@Injectable({
+    providedIn: 'root'
+})
+export class HeatingTypeClient implements IHeatingTypeClient {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * Gets the database HeatingType with pagination.
+     * @param listId (optional) 
+     * @param pageNumber (optional) 
+     * @param pageSize (optional) 
+     * @return PaginatedList HeatingTypeDto
+     */
+    getHeatingTypeWithPagination(listId: number | undefined, pageNumber: number | undefined, pageSize: number | undefined): Observable<SlApiResponseOfPaginatedListOfHeatingTypeDtoAndObject> {
+        let url_ = this.baseUrl + "/api/v1/HeatingType?";
+        if (listId === null)
+            throw new Error("The parameter 'listId' cannot be null.");
+        else if (listId !== undefined)
+            url_ += "ListId=" + encodeURIComponent("" + listId) + "&";
+        if (pageNumber === null)
+            throw new Error("The parameter 'pageNumber' cannot be null.");
+        else if (pageNumber !== undefined)
+            url_ += "PageNumber=" + encodeURIComponent("" + pageNumber) + "&";
+        if (pageSize === null)
+            throw new Error("The parameter 'pageSize' cannot be null.");
+        else if (pageSize !== undefined)
+            url_ += "PageSize=" + encodeURIComponent("" + pageSize) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetHeatingTypeWithPagination(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetHeatingTypeWithPagination(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<SlApiResponseOfPaginatedListOfHeatingTypeDtoAndObject>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<SlApiResponseOfPaginatedListOfHeatingTypeDtoAndObject>;
+        }));
+    }
+
+    protected processGetHeatingTypeWithPagination(response: HttpResponseBase): Observable<SlApiResponseOfPaginatedListOfHeatingTypeDtoAndObject> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = ProblemDetails.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result401: any = null;
+            let resultData401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result401 = ProblemDetails.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+            }));
+        } else if (status === 406) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result406: any = null;
+            let resultData406 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result406 = ProblemDetails.fromJS(resultData406);
+            return throwException("Not Acceptable", status, _responseText, _headers, result406);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Internal Server Error", status, _responseText, _headers);
+            }));
+        } else if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = SlApiResponseOfPaginatedListOfHeatingTypeDtoAndObject.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = ProblemDetails.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+            }));
+        } else {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let resultdefault: any = null;
+            let resultDatadefault = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            resultdefault = ProblemDetails.fromJS(resultDatadefault);
+            return throwException("A server side error occurred.", status, _responseText, _headers, resultdefault);
+            }));
+        }
+    }
+
+    /**
+     * Create a new HeatingType
+     * @param heatingTypeDto HeatingTypeDto
+     * @return SlApiResponse HeatingTypeDto
+     */
+    createHeatingType(heatingTypeDto: HeatingTypeDto): Observable<SlApiResponseOfHeatingTypeDtoAndObject> {
+        let url_ = this.baseUrl + "/api/v1/HeatingType";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(heatingTypeDto);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateHeatingType(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateHeatingType(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<SlApiResponseOfHeatingTypeDtoAndObject>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<SlApiResponseOfHeatingTypeDtoAndObject>;
+        }));
+    }
+
+    protected processCreateHeatingType(response: HttpResponseBase): Observable<SlApiResponseOfHeatingTypeDtoAndObject> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = ProblemDetails.fromJS(resultData400);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result401: any = null;
+            let resultData401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result401 = ProblemDetails.fromJS(resultData401);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result401);
+            }));
+        } else if (status === 406) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result406: any = null;
+            let resultData406 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result406 = ProblemDetails.fromJS(resultData406);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result406);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server side error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = SlApiResponseOfHeatingTypeDtoAndObject.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = ProblemDetails.fromJS(resultData404);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let resultdefault: any = null;
+            let resultDatadefault = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            resultdefault = ProblemDetails.fromJS(resultDatadefault);
+            return throwException("A server side error occurred.", status, _responseText, _headers, resultdefault);
+            }));
+        }
+    }
+
+    /**
+     * Gets the specified HeatingType.
+     * @return PaginatedList HeatingTypeDto
+     */
+    getHeatingTypeById(id: number): Observable<SlApiResponseOfHeatingTypeDtoAndObject> {
+        let url_ = this.baseUrl + "/api/v1/HeatingType/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetHeatingTypeById(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetHeatingTypeById(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<SlApiResponseOfHeatingTypeDtoAndObject>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<SlApiResponseOfHeatingTypeDtoAndObject>;
+        }));
+    }
+
+    protected processGetHeatingTypeById(response: HttpResponseBase): Observable<SlApiResponseOfHeatingTypeDtoAndObject> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = ProblemDetails.fromJS(resultData400);
+            return throwException(" Bad Request", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result401: any = null;
+            let resultData401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result401 = ProblemDetails.fromJS(resultData401);
+            return throwException(" Unauthorized ", status, _responseText, _headers, result401);
+            }));
+        } else if (status === 406) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result406: any = null;
+            let resultData406 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result406 = ProblemDetails.fromJS(resultData406);
+            return throwException(" Not Acceptable", status, _responseText, _headers, result406);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException(" Internal Server Error", status, _responseText, _headers);
+            }));
+        } else if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = SlApiResponseOfHeatingTypeDtoAndObject.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = ProblemDetails.fromJS(resultData404);
+            return throwException(" Not Found", status, _responseText, _headers, result404);
+            }));
+        } else {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let resultdefault: any = null;
+            let resultDatadefault = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            resultdefault = ProblemDetails.fromJS(resultDatadefault);
+            return throwException("A server side error occurred.", status, _responseText, _headers, resultdefault);
+            }));
+        }
+    }
+
+    /**
+     * Update the specified HeatingType
+     * @param heatingTypeDto HeatingTypeDto
+     * @return SlApiResponse HeatingTypeDto
+     */
+    updateHeatingType(id: number, heatingTypeDto: HeatingTypeDto): Observable<SlApiResponseOfHeatingTypeDtoAndObject> {
+        let url_ = this.baseUrl + "/api/v1/HeatingType/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(heatingTypeDto);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdateHeatingType(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdateHeatingType(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<SlApiResponseOfHeatingTypeDtoAndObject>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<SlApiResponseOfHeatingTypeDtoAndObject>;
+        }));
+    }
+
+    protected processUpdateHeatingType(response: HttpResponseBase): Observable<SlApiResponseOfHeatingTypeDtoAndObject> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = ProblemDetails.fromJS(resultData400);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result401: any = null;
+            let resultData401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result401 = ProblemDetails.fromJS(resultData401);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result401);
+            }));
+        } else if (status === 406) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result406: any = null;
+            let resultData406 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result406 = ProblemDetails.fromJS(resultData406);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result406);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server side error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = SlApiResponseOfHeatingTypeDtoAndObject.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = ProblemDetails.fromJS(resultData404);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let resultdefault: any = null;
+            let resultDatadefault = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            resultdefault = ProblemDetails.fromJS(resultDatadefault);
+            return throwException("A server side error occurred.", status, _responseText, _headers, resultdefault);
+            }));
+        }
+    }
+
+    /**
+     * Delete the specified HeatingType
+     * @param id int
+     * @return SlApiResponse HeatingTypeDto
+     */
+    deleteHeatingType(id: number): Observable<SlApiResponseOfHeatingTypeDtoAndObject> {
+        let url_ = this.baseUrl + "/api/v1/HeatingType/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDeleteHeatingType(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDeleteHeatingType(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<SlApiResponseOfHeatingTypeDtoAndObject>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<SlApiResponseOfHeatingTypeDtoAndObject>;
+        }));
+    }
+
+    protected processDeleteHeatingType(response: HttpResponseBase): Observable<SlApiResponseOfHeatingTypeDtoAndObject> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = ProblemDetails.fromJS(resultData400);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result401: any = null;
+            let resultData401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result401 = ProblemDetails.fromJS(resultData401);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result401);
+            }));
+        } else if (status === 406) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result406: any = null;
+            let resultData406 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result406 = ProblemDetails.fromJS(resultData406);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result406);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server side error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = SlApiResponseOfHeatingTypeDtoAndObject.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = ProblemDetails.fromJS(resultData404);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let resultdefault: any = null;
+            let resultDatadefault = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            resultdefault = ProblemDetails.fromJS(resultDatadefault);
+            return throwException("A server side error occurred.", status, _responseText, _headers, resultdefault);
+            }));
+        }
+    }
+
+    /**
+     * Virtualy delete the specified HeatingType
+     * @param id int
+     * @return SlApiResponse HeatingTypeDto
+     */
+    disableEnableHeatingType(id: number): Observable<SlApiResponseOfHeatingTypeDtoAndObject> {
+        let url_ = this.baseUrl + "/api/v1/HeatingType/DisableEnableHeatingType/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDisableEnableHeatingType(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDisableEnableHeatingType(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<SlApiResponseOfHeatingTypeDtoAndObject>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<SlApiResponseOfHeatingTypeDtoAndObject>;
+        }));
+    }
+
+    protected processDisableEnableHeatingType(response: HttpResponseBase): Observable<SlApiResponseOfHeatingTypeDtoAndObject> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = ProblemDetails.fromJS(resultData400);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result401: any = null;
+            let resultData401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result401 = ProblemDetails.fromJS(resultData401);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result401);
+            }));
+        } else if (status === 406) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result406: any = null;
+            let resultData406 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result406 = ProblemDetails.fromJS(resultData406);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result406);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server side error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = SlApiResponseOfHeatingTypeDtoAndObject.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = ProblemDetails.fromJS(resultData404);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let resultdefault: any = null;
+            let resultDatadefault = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            resultdefault = ProblemDetails.fromJS(resultDatadefault);
+            return throwException("A server side error occurred.", status, _responseText, _headers, resultdefault);
+            }));
+        }
+    }
+}
+
+export interface IInteriorFeatureClient {
+    /**
+     * Gets the database InteriorFeature with pagination.
+     * @param listId (optional) 
+     * @param pageNumber (optional) 
+     * @param pageSize (optional) 
+     * @return PaginatedList InteriorFeatureDto
+     */
+    getInteriorFeatureWithPagination(listId: number | undefined, pageNumber: number | undefined, pageSize: number | undefined): Observable<SlApiResponseOfPaginatedListOfInteriorFeatureDtoAndObject>;
+    /**
+     * Create a new InteriorFeature
+     * @param interiorFeatureDto InteriorFeatureDto
+     * @return SlApiResponse InteriorFeatureDto
+     */
+    createInteriorFeature(interiorFeatureDto: InteriorFeatureDto): Observable<SlApiResponseOfInteriorFeatureDtoAndObject>;
+    /**
+     * Gets the specified InteriorFeature.
+     * @return PaginatedList InteriorFeatureDto
+     */
+    getInteriorFeatureById(id: number): Observable<SlApiResponseOfInteriorFeatureDtoAndObject>;
+    /**
+     * Update the specified InteriorFeature
+     * @param interiorFeatureDto InteriorFeatureDto
+     * @return SlApiResponse InteriorFeatureDto
+     */
+    updateInteriorFeature(id: number, interiorFeatureDto: InteriorFeatureDto): Observable<SlApiResponseOfInteriorFeatureDtoAndObject>;
+    /**
+     * Delete the specified InteriorFeature
+     * @param id int
+     * @return SlApiResponse InteriorFeatureDto
+     */
+    deleteInteriorFeature(id: number): Observable<SlApiResponseOfInteriorFeatureDtoAndObject>;
+    /**
+     * Virtualy delete the specified InteriorFeature
+     * @param id int
+     * @return SlApiResponse InteriorFeatureDto
+     */
+    disableEnableInteriorFeature(id: number): Observable<SlApiResponseOfInteriorFeatureDtoAndObject>;
+}
+
+@Injectable({
+    providedIn: 'root'
+})
+export class InteriorFeatureClient implements IInteriorFeatureClient {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * Gets the database InteriorFeature with pagination.
+     * @param listId (optional) 
+     * @param pageNumber (optional) 
+     * @param pageSize (optional) 
+     * @return PaginatedList InteriorFeatureDto
+     */
+    getInteriorFeatureWithPagination(listId: number | undefined, pageNumber: number | undefined, pageSize: number | undefined): Observable<SlApiResponseOfPaginatedListOfInteriorFeatureDtoAndObject> {
+        let url_ = this.baseUrl + "/api/v1/InteriorFeature?";
+        if (listId === null)
+            throw new Error("The parameter 'listId' cannot be null.");
+        else if (listId !== undefined)
+            url_ += "ListId=" + encodeURIComponent("" + listId) + "&";
+        if (pageNumber === null)
+            throw new Error("The parameter 'pageNumber' cannot be null.");
+        else if (pageNumber !== undefined)
+            url_ += "PageNumber=" + encodeURIComponent("" + pageNumber) + "&";
+        if (pageSize === null)
+            throw new Error("The parameter 'pageSize' cannot be null.");
+        else if (pageSize !== undefined)
+            url_ += "PageSize=" + encodeURIComponent("" + pageSize) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetInteriorFeatureWithPagination(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetInteriorFeatureWithPagination(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<SlApiResponseOfPaginatedListOfInteriorFeatureDtoAndObject>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<SlApiResponseOfPaginatedListOfInteriorFeatureDtoAndObject>;
+        }));
+    }
+
+    protected processGetInteriorFeatureWithPagination(response: HttpResponseBase): Observable<SlApiResponseOfPaginatedListOfInteriorFeatureDtoAndObject> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = ProblemDetails.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result401: any = null;
+            let resultData401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result401 = ProblemDetails.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+            }));
+        } else if (status === 406) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result406: any = null;
+            let resultData406 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result406 = ProblemDetails.fromJS(resultData406);
+            return throwException("Not Acceptable", status, _responseText, _headers, result406);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Internal Server Error", status, _responseText, _headers);
+            }));
+        } else if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = SlApiResponseOfPaginatedListOfInteriorFeatureDtoAndObject.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = ProblemDetails.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+            }));
+        } else {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let resultdefault: any = null;
+            let resultDatadefault = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            resultdefault = ProblemDetails.fromJS(resultDatadefault);
+            return throwException("A server side error occurred.", status, _responseText, _headers, resultdefault);
+            }));
+        }
+    }
+
+    /**
+     * Create a new InteriorFeature
+     * @param interiorFeatureDto InteriorFeatureDto
+     * @return SlApiResponse InteriorFeatureDto
+     */
+    createInteriorFeature(interiorFeatureDto: InteriorFeatureDto): Observable<SlApiResponseOfInteriorFeatureDtoAndObject> {
+        let url_ = this.baseUrl + "/api/v1/InteriorFeature";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(interiorFeatureDto);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateInteriorFeature(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateInteriorFeature(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<SlApiResponseOfInteriorFeatureDtoAndObject>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<SlApiResponseOfInteriorFeatureDtoAndObject>;
+        }));
+    }
+
+    protected processCreateInteriorFeature(response: HttpResponseBase): Observable<SlApiResponseOfInteriorFeatureDtoAndObject> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = ProblemDetails.fromJS(resultData400);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result401: any = null;
+            let resultData401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result401 = ProblemDetails.fromJS(resultData401);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result401);
+            }));
+        } else if (status === 406) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result406: any = null;
+            let resultData406 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result406 = ProblemDetails.fromJS(resultData406);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result406);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server side error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = SlApiResponseOfInteriorFeatureDtoAndObject.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = ProblemDetails.fromJS(resultData404);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let resultdefault: any = null;
+            let resultDatadefault = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            resultdefault = ProblemDetails.fromJS(resultDatadefault);
+            return throwException("A server side error occurred.", status, _responseText, _headers, resultdefault);
+            }));
+        }
+    }
+
+    /**
+     * Gets the specified InteriorFeature.
+     * @return PaginatedList InteriorFeatureDto
+     */
+    getInteriorFeatureById(id: number): Observable<SlApiResponseOfInteriorFeatureDtoAndObject> {
+        let url_ = this.baseUrl + "/api/v1/InteriorFeature/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetInteriorFeatureById(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetInteriorFeatureById(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<SlApiResponseOfInteriorFeatureDtoAndObject>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<SlApiResponseOfInteriorFeatureDtoAndObject>;
+        }));
+    }
+
+    protected processGetInteriorFeatureById(response: HttpResponseBase): Observable<SlApiResponseOfInteriorFeatureDtoAndObject> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = ProblemDetails.fromJS(resultData400);
+            return throwException(" Bad Request", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result401: any = null;
+            let resultData401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result401 = ProblemDetails.fromJS(resultData401);
+            return throwException(" Unauthorized ", status, _responseText, _headers, result401);
+            }));
+        } else if (status === 406) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result406: any = null;
+            let resultData406 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result406 = ProblemDetails.fromJS(resultData406);
+            return throwException(" Not Acceptable", status, _responseText, _headers, result406);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException(" Internal Server Error", status, _responseText, _headers);
+            }));
+        } else if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = SlApiResponseOfInteriorFeatureDtoAndObject.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = ProblemDetails.fromJS(resultData404);
+            return throwException(" Not Found", status, _responseText, _headers, result404);
+            }));
+        } else {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let resultdefault: any = null;
+            let resultDatadefault = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            resultdefault = ProblemDetails.fromJS(resultDatadefault);
+            return throwException("A server side error occurred.", status, _responseText, _headers, resultdefault);
+            }));
+        }
+    }
+
+    /**
+     * Update the specified InteriorFeature
+     * @param interiorFeatureDto InteriorFeatureDto
+     * @return SlApiResponse InteriorFeatureDto
+     */
+    updateInteriorFeature(id: number, interiorFeatureDto: InteriorFeatureDto): Observable<SlApiResponseOfInteriorFeatureDtoAndObject> {
+        let url_ = this.baseUrl + "/api/v1/InteriorFeature/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(interiorFeatureDto);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdateInteriorFeature(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdateInteriorFeature(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<SlApiResponseOfInteriorFeatureDtoAndObject>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<SlApiResponseOfInteriorFeatureDtoAndObject>;
+        }));
+    }
+
+    protected processUpdateInteriorFeature(response: HttpResponseBase): Observable<SlApiResponseOfInteriorFeatureDtoAndObject> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = ProblemDetails.fromJS(resultData400);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result401: any = null;
+            let resultData401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result401 = ProblemDetails.fromJS(resultData401);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result401);
+            }));
+        } else if (status === 406) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result406: any = null;
+            let resultData406 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result406 = ProblemDetails.fromJS(resultData406);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result406);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server side error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = SlApiResponseOfInteriorFeatureDtoAndObject.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = ProblemDetails.fromJS(resultData404);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let resultdefault: any = null;
+            let resultDatadefault = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            resultdefault = ProblemDetails.fromJS(resultDatadefault);
+            return throwException("A server side error occurred.", status, _responseText, _headers, resultdefault);
+            }));
+        }
+    }
+
+    /**
+     * Delete the specified InteriorFeature
+     * @param id int
+     * @return SlApiResponse InteriorFeatureDto
+     */
+    deleteInteriorFeature(id: number): Observable<SlApiResponseOfInteriorFeatureDtoAndObject> {
+        let url_ = this.baseUrl + "/api/v1/InteriorFeature/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDeleteInteriorFeature(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDeleteInteriorFeature(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<SlApiResponseOfInteriorFeatureDtoAndObject>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<SlApiResponseOfInteriorFeatureDtoAndObject>;
+        }));
+    }
+
+    protected processDeleteInteriorFeature(response: HttpResponseBase): Observable<SlApiResponseOfInteriorFeatureDtoAndObject> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = ProblemDetails.fromJS(resultData400);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result401: any = null;
+            let resultData401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result401 = ProblemDetails.fromJS(resultData401);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result401);
+            }));
+        } else if (status === 406) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result406: any = null;
+            let resultData406 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result406 = ProblemDetails.fromJS(resultData406);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result406);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server side error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = SlApiResponseOfInteriorFeatureDtoAndObject.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = ProblemDetails.fromJS(resultData404);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let resultdefault: any = null;
+            let resultDatadefault = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            resultdefault = ProblemDetails.fromJS(resultDatadefault);
+            return throwException("A server side error occurred.", status, _responseText, _headers, resultdefault);
+            }));
+        }
+    }
+
+    /**
+     * Virtualy delete the specified InteriorFeature
+     * @param id int
+     * @return SlApiResponse InteriorFeatureDto
+     */
+    disableEnableInteriorFeature(id: number): Observable<SlApiResponseOfInteriorFeatureDtoAndObject> {
+        let url_ = this.baseUrl + "/api/v1/InteriorFeature/DisableEnableInteriorFeature/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDisableEnableInteriorFeature(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDisableEnableInteriorFeature(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<SlApiResponseOfInteriorFeatureDtoAndObject>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<SlApiResponseOfInteriorFeatureDtoAndObject>;
+        }));
+    }
+
+    protected processDisableEnableInteriorFeature(response: HttpResponseBase): Observable<SlApiResponseOfInteriorFeatureDtoAndObject> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = ProblemDetails.fromJS(resultData400);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result401: any = null;
+            let resultData401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result401 = ProblemDetails.fromJS(resultData401);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result401);
+            }));
+        } else if (status === 406) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result406: any = null;
+            let resultData406 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result406 = ProblemDetails.fromJS(resultData406);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result406);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server side error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = SlApiResponseOfInteriorFeatureDtoAndObject.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = ProblemDetails.fromJS(resultData404);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let resultdefault: any = null;
+            let resultDatadefault = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            resultdefault = ProblemDetails.fromJS(resultDatadefault);
+            return throwException("A server side error occurred.", status, _responseText, _headers, resultdefault);
+            }));
+        }
+    }
+}
+
+export interface IPhotosClient {
+    /**
+     * Gets the database Photos with pagination.
+     * @param listId (optional) 
+     * @param pageNumber (optional) 
+     * @param pageSize (optional) 
+     * @return PaginatedList PhotosDto
+     */
+    getPhotosWithPagination(listId: number | undefined, pageNumber: number | undefined, pageSize: number | undefined): Observable<SlApiResponseOfPaginatedListOfPhotosDtoAndObject>;
+    /**
+     * Create a new Photos
+     * @param photosDto PhotosDto
+     * @return SlApiResponse PhotosDto
+     */
+    createPhotos(photosDto: PhotosDto): Observable<SlApiResponseOfPhotosDtoAndObject>;
+    /**
+     * Gets the specified Photos.
+     * @return PaginatedList PhotosDto
+     */
+    getPhotosById(id: number): Observable<SlApiResponseOfPhotosDtoAndObject>;
+    /**
+     * Update the specified Photos
+     * @param photosDto PhotosDto
+     * @return SlApiResponse PhotosDto
+     */
+    updatePhotos(id: number, photosDto: PhotosDto): Observable<SlApiResponseOfPhotosDtoAndObject>;
+    /**
+     * Delete the specified Photos
+     * @param id int
+     * @return SlApiResponse PhotosDto
+     */
+    deletePhotos(id: number): Observable<SlApiResponseOfPhotosDtoAndObject>;
+    /**
+     * Virtualy delete the specified Photos
+     * @param id int
+     * @return SlApiResponse PhotosDto
+     */
+    disableEnablePhotos(id: number): Observable<SlApiResponseOfPhotosDtoAndObject>;
+}
+
+@Injectable({
+    providedIn: 'root'
+})
+export class PhotosClient implements IPhotosClient {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * Gets the database Photos with pagination.
+     * @param listId (optional) 
+     * @param pageNumber (optional) 
+     * @param pageSize (optional) 
+     * @return PaginatedList PhotosDto
+     */
+    getPhotosWithPagination(listId: number | undefined, pageNumber: number | undefined, pageSize: number | undefined): Observable<SlApiResponseOfPaginatedListOfPhotosDtoAndObject> {
+        let url_ = this.baseUrl + "/api/v1/Photos?";
+        if (listId === null)
+            throw new Error("The parameter 'listId' cannot be null.");
+        else if (listId !== undefined)
+            url_ += "ListId=" + encodeURIComponent("" + listId) + "&";
+        if (pageNumber === null)
+            throw new Error("The parameter 'pageNumber' cannot be null.");
+        else if (pageNumber !== undefined)
+            url_ += "PageNumber=" + encodeURIComponent("" + pageNumber) + "&";
+        if (pageSize === null)
+            throw new Error("The parameter 'pageSize' cannot be null.");
+        else if (pageSize !== undefined)
+            url_ += "PageSize=" + encodeURIComponent("" + pageSize) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetPhotosWithPagination(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetPhotosWithPagination(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<SlApiResponseOfPaginatedListOfPhotosDtoAndObject>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<SlApiResponseOfPaginatedListOfPhotosDtoAndObject>;
+        }));
+    }
+
+    protected processGetPhotosWithPagination(response: HttpResponseBase): Observable<SlApiResponseOfPaginatedListOfPhotosDtoAndObject> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = ProblemDetails.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result401: any = null;
+            let resultData401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result401 = ProblemDetails.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+            }));
+        } else if (status === 406) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result406: any = null;
+            let resultData406 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result406 = ProblemDetails.fromJS(resultData406);
+            return throwException("Not Acceptable", status, _responseText, _headers, result406);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Internal Server Error", status, _responseText, _headers);
+            }));
+        } else if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = SlApiResponseOfPaginatedListOfPhotosDtoAndObject.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = ProblemDetails.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+            }));
+        } else {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let resultdefault: any = null;
+            let resultDatadefault = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            resultdefault = ProblemDetails.fromJS(resultDatadefault);
+            return throwException("A server side error occurred.", status, _responseText, _headers, resultdefault);
+            }));
+        }
+    }
+
+    /**
+     * Create a new Photos
+     * @param photosDto PhotosDto
+     * @return SlApiResponse PhotosDto
+     */
+    createPhotos(photosDto: PhotosDto): Observable<SlApiResponseOfPhotosDtoAndObject> {
+        let url_ = this.baseUrl + "/api/v1/Photos";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(photosDto);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreatePhotos(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreatePhotos(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<SlApiResponseOfPhotosDtoAndObject>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<SlApiResponseOfPhotosDtoAndObject>;
+        }));
+    }
+
+    protected processCreatePhotos(response: HttpResponseBase): Observable<SlApiResponseOfPhotosDtoAndObject> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = ProblemDetails.fromJS(resultData400);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result401: any = null;
+            let resultData401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result401 = ProblemDetails.fromJS(resultData401);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result401);
+            }));
+        } else if (status === 406) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result406: any = null;
+            let resultData406 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result406 = ProblemDetails.fromJS(resultData406);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result406);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server side error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = SlApiResponseOfPhotosDtoAndObject.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = ProblemDetails.fromJS(resultData404);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let resultdefault: any = null;
+            let resultDatadefault = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            resultdefault = ProblemDetails.fromJS(resultDatadefault);
+            return throwException("A server side error occurred.", status, _responseText, _headers, resultdefault);
+            }));
+        }
+    }
+
+    /**
+     * Gets the specified Photos.
+     * @return PaginatedList PhotosDto
+     */
+    getPhotosById(id: number): Observable<SlApiResponseOfPhotosDtoAndObject> {
+        let url_ = this.baseUrl + "/api/v1/Photos/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetPhotosById(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetPhotosById(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<SlApiResponseOfPhotosDtoAndObject>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<SlApiResponseOfPhotosDtoAndObject>;
+        }));
+    }
+
+    protected processGetPhotosById(response: HttpResponseBase): Observable<SlApiResponseOfPhotosDtoAndObject> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = ProblemDetails.fromJS(resultData400);
+            return throwException(" Bad Request", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result401: any = null;
+            let resultData401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result401 = ProblemDetails.fromJS(resultData401);
+            return throwException(" Unauthorized ", status, _responseText, _headers, result401);
+            }));
+        } else if (status === 406) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result406: any = null;
+            let resultData406 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result406 = ProblemDetails.fromJS(resultData406);
+            return throwException(" Not Acceptable", status, _responseText, _headers, result406);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException(" Internal Server Error", status, _responseText, _headers);
+            }));
+        } else if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = SlApiResponseOfPhotosDtoAndObject.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = ProblemDetails.fromJS(resultData404);
+            return throwException(" Not Found", status, _responseText, _headers, result404);
+            }));
+        } else {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let resultdefault: any = null;
+            let resultDatadefault = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            resultdefault = ProblemDetails.fromJS(resultDatadefault);
+            return throwException("A server side error occurred.", status, _responseText, _headers, resultdefault);
+            }));
+        }
+    }
+
+    /**
+     * Update the specified Photos
+     * @param photosDto PhotosDto
+     * @return SlApiResponse PhotosDto
+     */
+    updatePhotos(id: number, photosDto: PhotosDto): Observable<SlApiResponseOfPhotosDtoAndObject> {
+        let url_ = this.baseUrl + "/api/v1/Photos/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(photosDto);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdatePhotos(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdatePhotos(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<SlApiResponseOfPhotosDtoAndObject>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<SlApiResponseOfPhotosDtoAndObject>;
+        }));
+    }
+
+    protected processUpdatePhotos(response: HttpResponseBase): Observable<SlApiResponseOfPhotosDtoAndObject> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = ProblemDetails.fromJS(resultData400);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result401: any = null;
+            let resultData401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result401 = ProblemDetails.fromJS(resultData401);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result401);
+            }));
+        } else if (status === 406) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result406: any = null;
+            let resultData406 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result406 = ProblemDetails.fromJS(resultData406);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result406);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server side error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = SlApiResponseOfPhotosDtoAndObject.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = ProblemDetails.fromJS(resultData404);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let resultdefault: any = null;
+            let resultDatadefault = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            resultdefault = ProblemDetails.fromJS(resultDatadefault);
+            return throwException("A server side error occurred.", status, _responseText, _headers, resultdefault);
+            }));
+        }
+    }
+
+    /**
+     * Delete the specified Photos
+     * @param id int
+     * @return SlApiResponse PhotosDto
+     */
+    deletePhotos(id: number): Observable<SlApiResponseOfPhotosDtoAndObject> {
+        let url_ = this.baseUrl + "/api/v1/Photos/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDeletePhotos(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDeletePhotos(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<SlApiResponseOfPhotosDtoAndObject>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<SlApiResponseOfPhotosDtoAndObject>;
+        }));
+    }
+
+    protected processDeletePhotos(response: HttpResponseBase): Observable<SlApiResponseOfPhotosDtoAndObject> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = ProblemDetails.fromJS(resultData400);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result401: any = null;
+            let resultData401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result401 = ProblemDetails.fromJS(resultData401);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result401);
+            }));
+        } else if (status === 406) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result406: any = null;
+            let resultData406 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result406 = ProblemDetails.fromJS(resultData406);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result406);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server side error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = SlApiResponseOfPhotosDtoAndObject.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = ProblemDetails.fromJS(resultData404);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let resultdefault: any = null;
+            let resultDatadefault = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            resultdefault = ProblemDetails.fromJS(resultDatadefault);
+            return throwException("A server side error occurred.", status, _responseText, _headers, resultdefault);
+            }));
+        }
+    }
+
+    /**
+     * Virtualy delete the specified Photos
+     * @param id int
+     * @return SlApiResponse PhotosDto
+     */
+    disableEnablePhotos(id: number): Observable<SlApiResponseOfPhotosDtoAndObject> {
+        let url_ = this.baseUrl + "/api/v1/Photos/DisableEnablePhotos/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDisableEnablePhotos(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDisableEnablePhotos(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<SlApiResponseOfPhotosDtoAndObject>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<SlApiResponseOfPhotosDtoAndObject>;
+        }));
+    }
+
+    protected processDisableEnablePhotos(response: HttpResponseBase): Observable<SlApiResponseOfPhotosDtoAndObject> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = ProblemDetails.fromJS(resultData400);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result401: any = null;
+            let resultData401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result401 = ProblemDetails.fromJS(resultData401);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result401);
+            }));
+        } else if (status === 406) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result406: any = null;
+            let resultData406 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result406 = ProblemDetails.fromJS(resultData406);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result406);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server side error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = SlApiResponseOfPhotosDtoAndObject.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = ProblemDetails.fromJS(resultData404);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let resultdefault: any = null;
+            let resultDatadefault = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            resultdefault = ProblemDetails.fromJS(resultDatadefault);
+            return throwException("A server side error occurred.", status, _responseText, _headers, resultdefault);
+            }));
+        }
+    }
+}
+
+export interface IPowerTypeClient {
+    /**
+     * Gets the database PowerType with pagination.
+     * @param listId (optional) 
+     * @param pageNumber (optional) 
+     * @param pageSize (optional) 
+     * @return PaginatedList PowerTypeDto
+     */
+    getPowerTypeWithPagination(listId: number | undefined, pageNumber: number | undefined, pageSize: number | undefined): Observable<SlApiResponseOfPaginatedListOfPowerTypeDtoAndObject>;
+    /**
+     * Create a new PowerType
+     * @param powerTypeDto PowerTypeDto
+     * @return SlApiResponse PowerTypeDto
+     */
+    createPowerType(powerTypeDto: PowerTypeDto): Observable<SlApiResponseOfPowerTypeDtoAndObject>;
+    /**
+     * Gets the specified PowerType.
+     * @return PaginatedList PowerTypeDto
+     */
+    getPowerTypeById(id: number): Observable<SlApiResponseOfPowerTypeDtoAndObject>;
+    /**
+     * Update the specified PowerType
+     * @param powerTypeDto PowerTypeDto
+     * @return SlApiResponse PowerTypeDto
+     */
+    updatePowerType(id: number, powerTypeDto: PowerTypeDto): Observable<SlApiResponseOfPowerTypeDtoAndObject>;
+    /**
+     * Delete the specified PowerType
+     * @param id int
+     * @return SlApiResponse PowerTypeDto
+     */
+    deletePowerType(id: number): Observable<SlApiResponseOfPowerTypeDtoAndObject>;
+    /**
+     * Virtualy delete the specified PowerType
+     * @param id int
+     * @return SlApiResponse PowerTypeDto
+     */
+    disableEnablePowerType(id: number): Observable<SlApiResponseOfPowerTypeDtoAndObject>;
+}
+
+@Injectable({
+    providedIn: 'root'
+})
+export class PowerTypeClient implements IPowerTypeClient {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * Gets the database PowerType with pagination.
+     * @param listId (optional) 
+     * @param pageNumber (optional) 
+     * @param pageSize (optional) 
+     * @return PaginatedList PowerTypeDto
+     */
+    getPowerTypeWithPagination(listId: number | undefined, pageNumber: number | undefined, pageSize: number | undefined): Observable<SlApiResponseOfPaginatedListOfPowerTypeDtoAndObject> {
+        let url_ = this.baseUrl + "/api/v1/PowerType?";
+        if (listId === null)
+            throw new Error("The parameter 'listId' cannot be null.");
+        else if (listId !== undefined)
+            url_ += "ListId=" + encodeURIComponent("" + listId) + "&";
+        if (pageNumber === null)
+            throw new Error("The parameter 'pageNumber' cannot be null.");
+        else if (pageNumber !== undefined)
+            url_ += "PageNumber=" + encodeURIComponent("" + pageNumber) + "&";
+        if (pageSize === null)
+            throw new Error("The parameter 'pageSize' cannot be null.");
+        else if (pageSize !== undefined)
+            url_ += "PageSize=" + encodeURIComponent("" + pageSize) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetPowerTypeWithPagination(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetPowerTypeWithPagination(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<SlApiResponseOfPaginatedListOfPowerTypeDtoAndObject>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<SlApiResponseOfPaginatedListOfPowerTypeDtoAndObject>;
+        }));
+    }
+
+    protected processGetPowerTypeWithPagination(response: HttpResponseBase): Observable<SlApiResponseOfPaginatedListOfPowerTypeDtoAndObject> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = ProblemDetails.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result401: any = null;
+            let resultData401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result401 = ProblemDetails.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+            }));
+        } else if (status === 406) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result406: any = null;
+            let resultData406 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result406 = ProblemDetails.fromJS(resultData406);
+            return throwException("Not Acceptable", status, _responseText, _headers, result406);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Internal Server Error", status, _responseText, _headers);
+            }));
+        } else if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = SlApiResponseOfPaginatedListOfPowerTypeDtoAndObject.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = ProblemDetails.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+            }));
+        } else {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let resultdefault: any = null;
+            let resultDatadefault = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            resultdefault = ProblemDetails.fromJS(resultDatadefault);
+            return throwException("A server side error occurred.", status, _responseText, _headers, resultdefault);
+            }));
+        }
+    }
+
+    /**
+     * Create a new PowerType
+     * @param powerTypeDto PowerTypeDto
+     * @return SlApiResponse PowerTypeDto
+     */
+    createPowerType(powerTypeDto: PowerTypeDto): Observable<SlApiResponseOfPowerTypeDtoAndObject> {
+        let url_ = this.baseUrl + "/api/v1/PowerType";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(powerTypeDto);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreatePowerType(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreatePowerType(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<SlApiResponseOfPowerTypeDtoAndObject>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<SlApiResponseOfPowerTypeDtoAndObject>;
+        }));
+    }
+
+    protected processCreatePowerType(response: HttpResponseBase): Observable<SlApiResponseOfPowerTypeDtoAndObject> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = ProblemDetails.fromJS(resultData400);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result401: any = null;
+            let resultData401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result401 = ProblemDetails.fromJS(resultData401);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result401);
+            }));
+        } else if (status === 406) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result406: any = null;
+            let resultData406 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result406 = ProblemDetails.fromJS(resultData406);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result406);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server side error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = SlApiResponseOfPowerTypeDtoAndObject.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = ProblemDetails.fromJS(resultData404);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let resultdefault: any = null;
+            let resultDatadefault = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            resultdefault = ProblemDetails.fromJS(resultDatadefault);
+            return throwException("A server side error occurred.", status, _responseText, _headers, resultdefault);
+            }));
+        }
+    }
+
+    /**
+     * Gets the specified PowerType.
+     * @return PaginatedList PowerTypeDto
+     */
+    getPowerTypeById(id: number): Observable<SlApiResponseOfPowerTypeDtoAndObject> {
+        let url_ = this.baseUrl + "/api/v1/PowerType/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetPowerTypeById(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetPowerTypeById(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<SlApiResponseOfPowerTypeDtoAndObject>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<SlApiResponseOfPowerTypeDtoAndObject>;
+        }));
+    }
+
+    protected processGetPowerTypeById(response: HttpResponseBase): Observable<SlApiResponseOfPowerTypeDtoAndObject> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = ProblemDetails.fromJS(resultData400);
+            return throwException(" Bad Request", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result401: any = null;
+            let resultData401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result401 = ProblemDetails.fromJS(resultData401);
+            return throwException(" Unauthorized ", status, _responseText, _headers, result401);
+            }));
+        } else if (status === 406) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result406: any = null;
+            let resultData406 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result406 = ProblemDetails.fromJS(resultData406);
+            return throwException(" Not Acceptable", status, _responseText, _headers, result406);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException(" Internal Server Error", status, _responseText, _headers);
+            }));
+        } else if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = SlApiResponseOfPowerTypeDtoAndObject.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = ProblemDetails.fromJS(resultData404);
+            return throwException(" Not Found", status, _responseText, _headers, result404);
+            }));
+        } else {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let resultdefault: any = null;
+            let resultDatadefault = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            resultdefault = ProblemDetails.fromJS(resultDatadefault);
+            return throwException("A server side error occurred.", status, _responseText, _headers, resultdefault);
+            }));
+        }
+    }
+
+    /**
+     * Update the specified PowerType
+     * @param powerTypeDto PowerTypeDto
+     * @return SlApiResponse PowerTypeDto
+     */
+    updatePowerType(id: number, powerTypeDto: PowerTypeDto): Observable<SlApiResponseOfPowerTypeDtoAndObject> {
+        let url_ = this.baseUrl + "/api/v1/PowerType/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(powerTypeDto);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdatePowerType(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdatePowerType(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<SlApiResponseOfPowerTypeDtoAndObject>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<SlApiResponseOfPowerTypeDtoAndObject>;
+        }));
+    }
+
+    protected processUpdatePowerType(response: HttpResponseBase): Observable<SlApiResponseOfPowerTypeDtoAndObject> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = ProblemDetails.fromJS(resultData400);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result401: any = null;
+            let resultData401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result401 = ProblemDetails.fromJS(resultData401);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result401);
+            }));
+        } else if (status === 406) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result406: any = null;
+            let resultData406 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result406 = ProblemDetails.fromJS(resultData406);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result406);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server side error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = SlApiResponseOfPowerTypeDtoAndObject.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = ProblemDetails.fromJS(resultData404);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let resultdefault: any = null;
+            let resultDatadefault = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            resultdefault = ProblemDetails.fromJS(resultDatadefault);
+            return throwException("A server side error occurred.", status, _responseText, _headers, resultdefault);
+            }));
+        }
+    }
+
+    /**
+     * Delete the specified PowerType
+     * @param id int
+     * @return SlApiResponse PowerTypeDto
+     */
+    deletePowerType(id: number): Observable<SlApiResponseOfPowerTypeDtoAndObject> {
+        let url_ = this.baseUrl + "/api/v1/PowerType/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDeletePowerType(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDeletePowerType(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<SlApiResponseOfPowerTypeDtoAndObject>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<SlApiResponseOfPowerTypeDtoAndObject>;
+        }));
+    }
+
+    protected processDeletePowerType(response: HttpResponseBase): Observable<SlApiResponseOfPowerTypeDtoAndObject> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = ProblemDetails.fromJS(resultData400);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result401: any = null;
+            let resultData401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result401 = ProblemDetails.fromJS(resultData401);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result401);
+            }));
+        } else if (status === 406) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result406: any = null;
+            let resultData406 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result406 = ProblemDetails.fromJS(resultData406);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result406);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server side error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = SlApiResponseOfPowerTypeDtoAndObject.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = ProblemDetails.fromJS(resultData404);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let resultdefault: any = null;
+            let resultDatadefault = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            resultdefault = ProblemDetails.fromJS(resultDatadefault);
+            return throwException("A server side error occurred.", status, _responseText, _headers, resultdefault);
+            }));
+        }
+    }
+
+    /**
+     * Virtualy delete the specified PowerType
+     * @param id int
+     * @return SlApiResponse PowerTypeDto
+     */
+    disableEnablePowerType(id: number): Observable<SlApiResponseOfPowerTypeDtoAndObject> {
+        let url_ = this.baseUrl + "/api/v1/PowerType/DisableEnablePowerType/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDisableEnablePowerType(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDisableEnablePowerType(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<SlApiResponseOfPowerTypeDtoAndObject>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<SlApiResponseOfPowerTypeDtoAndObject>;
+        }));
+    }
+
+    protected processDisableEnablePowerType(response: HttpResponseBase): Observable<SlApiResponseOfPowerTypeDtoAndObject> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = ProblemDetails.fromJS(resultData400);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result401: any = null;
+            let resultData401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result401 = ProblemDetails.fromJS(resultData401);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result401);
+            }));
+        } else if (status === 406) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result406: any = null;
+            let resultData406 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result406 = ProblemDetails.fromJS(resultData406);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result406);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server side error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = SlApiResponseOfPowerTypeDtoAndObject.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = ProblemDetails.fromJS(resultData404);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let resultdefault: any = null;
+            let resultDatadefault = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            resultdefault = ProblemDetails.fromJS(resultDatadefault);
+            return throwException("A server side error occurred.", status, _responseText, _headers, resultdefault);
+            }));
+        }
+    }
+}
+
+export interface ISuitableForClient {
+    /**
+     * Gets the database SuitableFor with pagination.
+     * @param listId (optional) 
+     * @param pageNumber (optional) 
+     * @param pageSize (optional) 
+     * @return PaginatedList SuitableForDto
+     */
+    getSuitableForWithPagination(listId: number | undefined, pageNumber: number | undefined, pageSize: number | undefined): Observable<SlApiResponseOfPaginatedListOfSuitableForDtoAndObject>;
+    /**
+     * Create a new SuitableFor
+     * @param suitableForDto SuitableForDto
+     * @return SlApiResponse SuitableForDto
+     */
+    createSuitableFor(suitableForDto: SuitableForDto): Observable<SlApiResponseOfSuitableForDtoAndObject>;
+    /**
+     * Gets the specified SuitableFor.
+     * @return PaginatedList SuitableForDto
+     */
+    getSuitableForById(id: number): Observable<SlApiResponseOfSuitableForDtoAndObject>;
+    /**
+     * Update the specified SuitableFor
+     * @param suitableForDto SuitableForDto
+     * @return SlApiResponse SuitableForDto
+     */
+    updateSuitableFor(id: number, suitableForDto: SuitableForDto): Observable<SlApiResponseOfSuitableForDtoAndObject>;
+    /**
+     * Delete the specified SuitableFor
+     * @param id int
+     * @return SlApiResponse SuitableForDto
+     */
+    deleteSuitableFor(id: number): Observable<SlApiResponseOfSuitableForDtoAndObject>;
+    /**
+     * Virtualy delete the specified SuitableFor
+     * @param id int
+     * @return SlApiResponse SuitableForDto
+     */
+    disableEnableSuitableFor(id: number): Observable<SlApiResponseOfSuitableForDtoAndObject>;
+}
+
+@Injectable({
+    providedIn: 'root'
+})
+export class SuitableForClient implements ISuitableForClient {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * Gets the database SuitableFor with pagination.
+     * @param listId (optional) 
+     * @param pageNumber (optional) 
+     * @param pageSize (optional) 
+     * @return PaginatedList SuitableForDto
+     */
+    getSuitableForWithPagination(listId: number | undefined, pageNumber: number | undefined, pageSize: number | undefined): Observable<SlApiResponseOfPaginatedListOfSuitableForDtoAndObject> {
+        let url_ = this.baseUrl + "/api/v1/SuitableFor?";
+        if (listId === null)
+            throw new Error("The parameter 'listId' cannot be null.");
+        else if (listId !== undefined)
+            url_ += "ListId=" + encodeURIComponent("" + listId) + "&";
+        if (pageNumber === null)
+            throw new Error("The parameter 'pageNumber' cannot be null.");
+        else if (pageNumber !== undefined)
+            url_ += "PageNumber=" + encodeURIComponent("" + pageNumber) + "&";
+        if (pageSize === null)
+            throw new Error("The parameter 'pageSize' cannot be null.");
+        else if (pageSize !== undefined)
+            url_ += "PageSize=" + encodeURIComponent("" + pageSize) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetSuitableForWithPagination(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetSuitableForWithPagination(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<SlApiResponseOfPaginatedListOfSuitableForDtoAndObject>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<SlApiResponseOfPaginatedListOfSuitableForDtoAndObject>;
+        }));
+    }
+
+    protected processGetSuitableForWithPagination(response: HttpResponseBase): Observable<SlApiResponseOfPaginatedListOfSuitableForDtoAndObject> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = ProblemDetails.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result401: any = null;
+            let resultData401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result401 = ProblemDetails.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+            }));
+        } else if (status === 406) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result406: any = null;
+            let resultData406 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result406 = ProblemDetails.fromJS(resultData406);
+            return throwException("Not Acceptable", status, _responseText, _headers, result406);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Internal Server Error", status, _responseText, _headers);
+            }));
+        } else if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = SlApiResponseOfPaginatedListOfSuitableForDtoAndObject.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = ProblemDetails.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+            }));
+        } else {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let resultdefault: any = null;
+            let resultDatadefault = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            resultdefault = ProblemDetails.fromJS(resultDatadefault);
+            return throwException("A server side error occurred.", status, _responseText, _headers, resultdefault);
+            }));
+        }
+    }
+
+    /**
+     * Create a new SuitableFor
+     * @param suitableForDto SuitableForDto
+     * @return SlApiResponse SuitableForDto
+     */
+    createSuitableFor(suitableForDto: SuitableForDto): Observable<SlApiResponseOfSuitableForDtoAndObject> {
+        let url_ = this.baseUrl + "/api/v1/SuitableFor";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(suitableForDto);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateSuitableFor(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateSuitableFor(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<SlApiResponseOfSuitableForDtoAndObject>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<SlApiResponseOfSuitableForDtoAndObject>;
+        }));
+    }
+
+    protected processCreateSuitableFor(response: HttpResponseBase): Observable<SlApiResponseOfSuitableForDtoAndObject> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = ProblemDetails.fromJS(resultData400);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result401: any = null;
+            let resultData401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result401 = ProblemDetails.fromJS(resultData401);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result401);
+            }));
+        } else if (status === 406) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result406: any = null;
+            let resultData406 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result406 = ProblemDetails.fromJS(resultData406);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result406);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server side error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = SlApiResponseOfSuitableForDtoAndObject.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = ProblemDetails.fromJS(resultData404);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let resultdefault: any = null;
+            let resultDatadefault = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            resultdefault = ProblemDetails.fromJS(resultDatadefault);
+            return throwException("A server side error occurred.", status, _responseText, _headers, resultdefault);
+            }));
+        }
+    }
+
+    /**
+     * Gets the specified SuitableFor.
+     * @return PaginatedList SuitableForDto
+     */
+    getSuitableForById(id: number): Observable<SlApiResponseOfSuitableForDtoAndObject> {
+        let url_ = this.baseUrl + "/api/v1/SuitableFor/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetSuitableForById(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetSuitableForById(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<SlApiResponseOfSuitableForDtoAndObject>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<SlApiResponseOfSuitableForDtoAndObject>;
+        }));
+    }
+
+    protected processGetSuitableForById(response: HttpResponseBase): Observable<SlApiResponseOfSuitableForDtoAndObject> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = ProblemDetails.fromJS(resultData400);
+            return throwException(" Bad Request", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result401: any = null;
+            let resultData401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result401 = ProblemDetails.fromJS(resultData401);
+            return throwException(" Unauthorized ", status, _responseText, _headers, result401);
+            }));
+        } else if (status === 406) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result406: any = null;
+            let resultData406 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result406 = ProblemDetails.fromJS(resultData406);
+            return throwException(" Not Acceptable", status, _responseText, _headers, result406);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException(" Internal Server Error", status, _responseText, _headers);
+            }));
+        } else if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = SlApiResponseOfSuitableForDtoAndObject.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = ProblemDetails.fromJS(resultData404);
+            return throwException(" Not Found", status, _responseText, _headers, result404);
+            }));
+        } else {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let resultdefault: any = null;
+            let resultDatadefault = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            resultdefault = ProblemDetails.fromJS(resultDatadefault);
+            return throwException("A server side error occurred.", status, _responseText, _headers, resultdefault);
+            }));
+        }
+    }
+
+    /**
+     * Update the specified SuitableFor
+     * @param suitableForDto SuitableForDto
+     * @return SlApiResponse SuitableForDto
+     */
+    updateSuitableFor(id: number, suitableForDto: SuitableForDto): Observable<SlApiResponseOfSuitableForDtoAndObject> {
+        let url_ = this.baseUrl + "/api/v1/SuitableFor/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(suitableForDto);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdateSuitableFor(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdateSuitableFor(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<SlApiResponseOfSuitableForDtoAndObject>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<SlApiResponseOfSuitableForDtoAndObject>;
+        }));
+    }
+
+    protected processUpdateSuitableFor(response: HttpResponseBase): Observable<SlApiResponseOfSuitableForDtoAndObject> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = ProblemDetails.fromJS(resultData400);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result401: any = null;
+            let resultData401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result401 = ProblemDetails.fromJS(resultData401);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result401);
+            }));
+        } else if (status === 406) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result406: any = null;
+            let resultData406 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result406 = ProblemDetails.fromJS(resultData406);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result406);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server side error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = SlApiResponseOfSuitableForDtoAndObject.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = ProblemDetails.fromJS(resultData404);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let resultdefault: any = null;
+            let resultDatadefault = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            resultdefault = ProblemDetails.fromJS(resultDatadefault);
+            return throwException("A server side error occurred.", status, _responseText, _headers, resultdefault);
+            }));
+        }
+    }
+
+    /**
+     * Delete the specified SuitableFor
+     * @param id int
+     * @return SlApiResponse SuitableForDto
+     */
+    deleteSuitableFor(id: number): Observable<SlApiResponseOfSuitableForDtoAndObject> {
+        let url_ = this.baseUrl + "/api/v1/SuitableFor/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDeleteSuitableFor(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDeleteSuitableFor(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<SlApiResponseOfSuitableForDtoAndObject>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<SlApiResponseOfSuitableForDtoAndObject>;
+        }));
+    }
+
+    protected processDeleteSuitableFor(response: HttpResponseBase): Observable<SlApiResponseOfSuitableForDtoAndObject> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = ProblemDetails.fromJS(resultData400);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result401: any = null;
+            let resultData401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result401 = ProblemDetails.fromJS(resultData401);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result401);
+            }));
+        } else if (status === 406) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result406: any = null;
+            let resultData406 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result406 = ProblemDetails.fromJS(resultData406);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result406);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server side error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = SlApiResponseOfSuitableForDtoAndObject.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = ProblemDetails.fromJS(resultData404);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let resultdefault: any = null;
+            let resultDatadefault = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            resultdefault = ProblemDetails.fromJS(resultDatadefault);
+            return throwException("A server side error occurred.", status, _responseText, _headers, resultdefault);
+            }));
+        }
+    }
+
+    /**
+     * Virtualy delete the specified SuitableFor
+     * @param id int
+     * @return SlApiResponse SuitableForDto
+     */
+    disableEnableSuitableFor(id: number): Observable<SlApiResponseOfSuitableForDtoAndObject> {
+        let url_ = this.baseUrl + "/api/v1/SuitableFor/DisableEnableSuitableFor/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDisableEnableSuitableFor(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDisableEnableSuitableFor(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<SlApiResponseOfSuitableForDtoAndObject>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<SlApiResponseOfSuitableForDtoAndObject>;
+        }));
+    }
+
+    protected processDisableEnableSuitableFor(response: HttpResponseBase): Observable<SlApiResponseOfSuitableForDtoAndObject> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = ProblemDetails.fromJS(resultData400);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result401: any = null;
+            let resultData401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result401 = ProblemDetails.fromJS(resultData401);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result401);
+            }));
+        } else if (status === 406) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result406: any = null;
+            let resultData406 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result406 = ProblemDetails.fromJS(resultData406);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result406);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server side error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = SlApiResponseOfSuitableForDtoAndObject.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = ProblemDetails.fromJS(resultData404);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let resultdefault: any = null;
+            let resultDatadefault = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            resultdefault = ProblemDetails.fromJS(resultDatadefault);
+            return throwException("A server side error occurred.", status, _responseText, _headers, resultdefault);
+            }));
+        }
+    }
+}
+
 export class ProblemDetails implements IProblemDetails {
     type?: string | undefined;
     title?: string | undefined;
@@ -8453,7 +11498,7 @@ export interface IGoogleMapPlaceDto extends IAuditableEntity {
     classified?: ClassifiedDto | undefined;
 }
 
-export class SuitableForDto implements ISuitableForDto {
+export class SuitableForDto extends AuditableEntity implements ISuitableForDto {
     suitableForID?: number;
     studentUse?: boolean;
     holidayHomeUse?: boolean;
@@ -8466,15 +11511,11 @@ export class SuitableForDto implements ISuitableForDto {
     classified?: ClassifiedDto | undefined;
 
     constructor(data?: ISuitableForDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
+        super(data);
     }
 
     init(_data?: any) {
+        super.init(_data);
         if (_data) {
             this.suitableForID = _data["suitableForID"];
             this.studentUse = _data["studentUse"];
@@ -8508,11 +11549,12 @@ export class SuitableForDto implements ISuitableForDto {
         data["isEnabled"] = this.isEnabled;
         data["isDeleted"] = this.isDeleted;
         data["classified"] = this.classified ? this.classified.toJSON() : <any>undefined;
+        super.toJSON(data);
         return data;
     }
 }
 
-export interface ISuitableForDto {
+export interface ISuitableForDto extends IAuditableEntity {
     suitableForID?: number;
     studentUse?: boolean;
     holidayHomeUse?: boolean;
@@ -8743,7 +11785,7 @@ export interface IClassifiedCharacteristicsDto extends IAuditableEntity {
     classified?: ClassifiedDto | undefined;
 }
 
-export class HeatingTypeDto implements IHeatingTypeDto {
+export class HeatingTypeDto extends AuditableEntity implements IHeatingTypeDto {
     heatingTypeID?: number;
     heatingTypeValue?: string | undefined;
     description?: string | undefined;
@@ -8752,15 +11794,11 @@ export class HeatingTypeDto implements IHeatingTypeDto {
     classifiedCharacteristics?: ClassifiedCharacteristics[] | undefined;
 
     constructor(data?: IHeatingTypeDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
+        super(data);
     }
 
     init(_data?: any) {
+        super.init(_data);
         if (_data) {
             this.heatingTypeID = _data["heatingTypeID"];
             this.heatingTypeValue = _data["heatingTypeValue"];
@@ -8794,11 +11832,12 @@ export class HeatingTypeDto implements IHeatingTypeDto {
             for (let item of this.classifiedCharacteristics)
                 data["classifiedCharacteristics"].push(item.toJSON());
         }
+        super.toJSON(data);
         return data;
     }
 }
 
-export interface IHeatingTypeDto {
+export interface IHeatingTypeDto extends IAuditableEntity {
     heatingTypeID?: number;
     heatingTypeValue?: string | undefined;
     description?: string | undefined;
@@ -10407,7 +13446,7 @@ export interface IEnergyClassDto extends IAuditableEntity {
     classifiedCharacteristics?: ClassifiedCharacteristicsDto[] | undefined;
 }
 
-export class PhotosDto implements IPhotosDto {
+export class PhotosDto extends AuditableEntity implements IPhotosDto {
     photoID?: number;
     classifiedID?: number;
     classified?: ClassifiedDto | undefined;
@@ -10418,15 +13457,11 @@ export class PhotosDto implements IPhotosDto {
     isDeleted?: boolean;
 
     constructor(data?: IPhotosDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
+        super(data);
     }
 
     init(_data?: any) {
+        super.init(_data);
         if (_data) {
             this.photoID = _data["photoID"];
             this.classifiedID = _data["classifiedID"];
@@ -10456,11 +13491,12 @@ export class PhotosDto implements IPhotosDto {
         data["fileContent"] = this.fileContent;
         data["isEnabled"] = this.isEnabled;
         data["isDeleted"] = this.isDeleted;
+        super.toJSON(data);
         return data;
     }
 }
 
-export interface IPhotosDto {
+export interface IPhotosDto extends IAuditableEntity {
     photoID?: number;
     classifiedID?: number;
     classified?: ClassifiedDto | undefined;
@@ -12537,6 +15573,886 @@ export interface ISlApiResponseOfHeatingSystemDtoAndObject {
     isError?: boolean;
     messages?: SlApiMessage[] | undefined;
     data?: HeatingSystemDto | undefined;
+    metaData?: any | undefined;
+}
+
+export class SlApiResponseOfPaginatedListOfHeatingTypeDtoAndObject implements ISlApiResponseOfPaginatedListOfHeatingTypeDtoAndObject {
+    isError?: boolean;
+    messages?: SlApiMessage[] | undefined;
+    data?: PaginatedListOfHeatingTypeDto | undefined;
+    metaData?: any | undefined;
+
+    constructor(data?: ISlApiResponseOfPaginatedListOfHeatingTypeDtoAndObject) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.isError = _data["isError"];
+            if (Array.isArray(_data["messages"])) {
+                this.messages = [] as any;
+                for (let item of _data["messages"])
+                    this.messages!.push(SlApiMessage.fromJS(item));
+            }
+            this.data = _data["data"] ? PaginatedListOfHeatingTypeDto.fromJS(_data["data"]) : <any>undefined;
+            this.metaData = _data["metaData"];
+        }
+    }
+
+    static fromJS(data: any): SlApiResponseOfPaginatedListOfHeatingTypeDtoAndObject {
+        data = typeof data === 'object' ? data : {};
+        let result = new SlApiResponseOfPaginatedListOfHeatingTypeDtoAndObject();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["isError"] = this.isError;
+        if (Array.isArray(this.messages)) {
+            data["messages"] = [];
+            for (let item of this.messages)
+                data["messages"].push(item.toJSON());
+        }
+        data["data"] = this.data ? this.data.toJSON() : <any>undefined;
+        data["metaData"] = this.metaData;
+        return data;
+    }
+}
+
+export interface ISlApiResponseOfPaginatedListOfHeatingTypeDtoAndObject {
+    isError?: boolean;
+    messages?: SlApiMessage[] | undefined;
+    data?: PaginatedListOfHeatingTypeDto | undefined;
+    metaData?: any | undefined;
+}
+
+export class PaginatedListOfHeatingTypeDto implements IPaginatedListOfHeatingTypeDto {
+    items?: HeatingTypeDto[] | undefined;
+    pageNumber?: number;
+    totalPages?: number;
+    totalCount?: number;
+    hasPreviousPage?: boolean;
+    hasNextPage?: boolean;
+
+    constructor(data?: IPaginatedListOfHeatingTypeDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(HeatingTypeDto.fromJS(item));
+            }
+            this.pageNumber = _data["pageNumber"];
+            this.totalPages = _data["totalPages"];
+            this.totalCount = _data["totalCount"];
+            this.hasPreviousPage = _data["hasPreviousPage"];
+            this.hasNextPage = _data["hasNextPage"];
+        }
+    }
+
+    static fromJS(data: any): PaginatedListOfHeatingTypeDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PaginatedListOfHeatingTypeDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        data["pageNumber"] = this.pageNumber;
+        data["totalPages"] = this.totalPages;
+        data["totalCount"] = this.totalCount;
+        data["hasPreviousPage"] = this.hasPreviousPage;
+        data["hasNextPage"] = this.hasNextPage;
+        return data;
+    }
+}
+
+export interface IPaginatedListOfHeatingTypeDto {
+    items?: HeatingTypeDto[] | undefined;
+    pageNumber?: number;
+    totalPages?: number;
+    totalCount?: number;
+    hasPreviousPage?: boolean;
+    hasNextPage?: boolean;
+}
+
+export class SlApiResponseOfHeatingTypeDtoAndObject implements ISlApiResponseOfHeatingTypeDtoAndObject {
+    isError?: boolean;
+    messages?: SlApiMessage[] | undefined;
+    data?: HeatingTypeDto | undefined;
+    metaData?: any | undefined;
+
+    constructor(data?: ISlApiResponseOfHeatingTypeDtoAndObject) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.isError = _data["isError"];
+            if (Array.isArray(_data["messages"])) {
+                this.messages = [] as any;
+                for (let item of _data["messages"])
+                    this.messages!.push(SlApiMessage.fromJS(item));
+            }
+            this.data = _data["data"] ? HeatingTypeDto.fromJS(_data["data"]) : <any>undefined;
+            this.metaData = _data["metaData"];
+        }
+    }
+
+    static fromJS(data: any): SlApiResponseOfHeatingTypeDtoAndObject {
+        data = typeof data === 'object' ? data : {};
+        let result = new SlApiResponseOfHeatingTypeDtoAndObject();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["isError"] = this.isError;
+        if (Array.isArray(this.messages)) {
+            data["messages"] = [];
+            for (let item of this.messages)
+                data["messages"].push(item.toJSON());
+        }
+        data["data"] = this.data ? this.data.toJSON() : <any>undefined;
+        data["metaData"] = this.metaData;
+        return data;
+    }
+}
+
+export interface ISlApiResponseOfHeatingTypeDtoAndObject {
+    isError?: boolean;
+    messages?: SlApiMessage[] | undefined;
+    data?: HeatingTypeDto | undefined;
+    metaData?: any | undefined;
+}
+
+export class SlApiResponseOfPaginatedListOfInteriorFeatureDtoAndObject implements ISlApiResponseOfPaginatedListOfInteriorFeatureDtoAndObject {
+    isError?: boolean;
+    messages?: SlApiMessage[] | undefined;
+    data?: PaginatedListOfInteriorFeatureDto | undefined;
+    metaData?: any | undefined;
+
+    constructor(data?: ISlApiResponseOfPaginatedListOfInteriorFeatureDtoAndObject) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.isError = _data["isError"];
+            if (Array.isArray(_data["messages"])) {
+                this.messages = [] as any;
+                for (let item of _data["messages"])
+                    this.messages!.push(SlApiMessage.fromJS(item));
+            }
+            this.data = _data["data"] ? PaginatedListOfInteriorFeatureDto.fromJS(_data["data"]) : <any>undefined;
+            this.metaData = _data["metaData"];
+        }
+    }
+
+    static fromJS(data: any): SlApiResponseOfPaginatedListOfInteriorFeatureDtoAndObject {
+        data = typeof data === 'object' ? data : {};
+        let result = new SlApiResponseOfPaginatedListOfInteriorFeatureDtoAndObject();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["isError"] = this.isError;
+        if (Array.isArray(this.messages)) {
+            data["messages"] = [];
+            for (let item of this.messages)
+                data["messages"].push(item.toJSON());
+        }
+        data["data"] = this.data ? this.data.toJSON() : <any>undefined;
+        data["metaData"] = this.metaData;
+        return data;
+    }
+}
+
+export interface ISlApiResponseOfPaginatedListOfInteriorFeatureDtoAndObject {
+    isError?: boolean;
+    messages?: SlApiMessage[] | undefined;
+    data?: PaginatedListOfInteriorFeatureDto | undefined;
+    metaData?: any | undefined;
+}
+
+export class PaginatedListOfInteriorFeatureDto implements IPaginatedListOfInteriorFeatureDto {
+    items?: InteriorFeatureDto[] | undefined;
+    pageNumber?: number;
+    totalPages?: number;
+    totalCount?: number;
+    hasPreviousPage?: boolean;
+    hasNextPage?: boolean;
+
+    constructor(data?: IPaginatedListOfInteriorFeatureDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(InteriorFeatureDto.fromJS(item));
+            }
+            this.pageNumber = _data["pageNumber"];
+            this.totalPages = _data["totalPages"];
+            this.totalCount = _data["totalCount"];
+            this.hasPreviousPage = _data["hasPreviousPage"];
+            this.hasNextPage = _data["hasNextPage"];
+        }
+    }
+
+    static fromJS(data: any): PaginatedListOfInteriorFeatureDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PaginatedListOfInteriorFeatureDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        data["pageNumber"] = this.pageNumber;
+        data["totalPages"] = this.totalPages;
+        data["totalCount"] = this.totalCount;
+        data["hasPreviousPage"] = this.hasPreviousPage;
+        data["hasNextPage"] = this.hasNextPage;
+        return data;
+    }
+}
+
+export interface IPaginatedListOfInteriorFeatureDto {
+    items?: InteriorFeatureDto[] | undefined;
+    pageNumber?: number;
+    totalPages?: number;
+    totalCount?: number;
+    hasPreviousPage?: boolean;
+    hasNextPage?: boolean;
+}
+
+export class SlApiResponseOfInteriorFeatureDtoAndObject implements ISlApiResponseOfInteriorFeatureDtoAndObject {
+    isError?: boolean;
+    messages?: SlApiMessage[] | undefined;
+    data?: InteriorFeatureDto | undefined;
+    metaData?: any | undefined;
+
+    constructor(data?: ISlApiResponseOfInteriorFeatureDtoAndObject) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.isError = _data["isError"];
+            if (Array.isArray(_data["messages"])) {
+                this.messages = [] as any;
+                for (let item of _data["messages"])
+                    this.messages!.push(SlApiMessage.fromJS(item));
+            }
+            this.data = _data["data"] ? InteriorFeatureDto.fromJS(_data["data"]) : <any>undefined;
+            this.metaData = _data["metaData"];
+        }
+    }
+
+    static fromJS(data: any): SlApiResponseOfInteriorFeatureDtoAndObject {
+        data = typeof data === 'object' ? data : {};
+        let result = new SlApiResponseOfInteriorFeatureDtoAndObject();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["isError"] = this.isError;
+        if (Array.isArray(this.messages)) {
+            data["messages"] = [];
+            for (let item of this.messages)
+                data["messages"].push(item.toJSON());
+        }
+        data["data"] = this.data ? this.data.toJSON() : <any>undefined;
+        data["metaData"] = this.metaData;
+        return data;
+    }
+}
+
+export interface ISlApiResponseOfInteriorFeatureDtoAndObject {
+    isError?: boolean;
+    messages?: SlApiMessage[] | undefined;
+    data?: InteriorFeatureDto | undefined;
+    metaData?: any | undefined;
+}
+
+export class SlApiResponseOfPaginatedListOfPhotosDtoAndObject implements ISlApiResponseOfPaginatedListOfPhotosDtoAndObject {
+    isError?: boolean;
+    messages?: SlApiMessage[] | undefined;
+    data?: PaginatedListOfPhotosDto | undefined;
+    metaData?: any | undefined;
+
+    constructor(data?: ISlApiResponseOfPaginatedListOfPhotosDtoAndObject) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.isError = _data["isError"];
+            if (Array.isArray(_data["messages"])) {
+                this.messages = [] as any;
+                for (let item of _data["messages"])
+                    this.messages!.push(SlApiMessage.fromJS(item));
+            }
+            this.data = _data["data"] ? PaginatedListOfPhotosDto.fromJS(_data["data"]) : <any>undefined;
+            this.metaData = _data["metaData"];
+        }
+    }
+
+    static fromJS(data: any): SlApiResponseOfPaginatedListOfPhotosDtoAndObject {
+        data = typeof data === 'object' ? data : {};
+        let result = new SlApiResponseOfPaginatedListOfPhotosDtoAndObject();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["isError"] = this.isError;
+        if (Array.isArray(this.messages)) {
+            data["messages"] = [];
+            for (let item of this.messages)
+                data["messages"].push(item.toJSON());
+        }
+        data["data"] = this.data ? this.data.toJSON() : <any>undefined;
+        data["metaData"] = this.metaData;
+        return data;
+    }
+}
+
+export interface ISlApiResponseOfPaginatedListOfPhotosDtoAndObject {
+    isError?: boolean;
+    messages?: SlApiMessage[] | undefined;
+    data?: PaginatedListOfPhotosDto | undefined;
+    metaData?: any | undefined;
+}
+
+export class PaginatedListOfPhotosDto implements IPaginatedListOfPhotosDto {
+    items?: PhotosDto[] | undefined;
+    pageNumber?: number;
+    totalPages?: number;
+    totalCount?: number;
+    hasPreviousPage?: boolean;
+    hasNextPage?: boolean;
+
+    constructor(data?: IPaginatedListOfPhotosDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(PhotosDto.fromJS(item));
+            }
+            this.pageNumber = _data["pageNumber"];
+            this.totalPages = _data["totalPages"];
+            this.totalCount = _data["totalCount"];
+            this.hasPreviousPage = _data["hasPreviousPage"];
+            this.hasNextPage = _data["hasNextPage"];
+        }
+    }
+
+    static fromJS(data: any): PaginatedListOfPhotosDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PaginatedListOfPhotosDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        data["pageNumber"] = this.pageNumber;
+        data["totalPages"] = this.totalPages;
+        data["totalCount"] = this.totalCount;
+        data["hasPreviousPage"] = this.hasPreviousPage;
+        data["hasNextPage"] = this.hasNextPage;
+        return data;
+    }
+}
+
+export interface IPaginatedListOfPhotosDto {
+    items?: PhotosDto[] | undefined;
+    pageNumber?: number;
+    totalPages?: number;
+    totalCount?: number;
+    hasPreviousPage?: boolean;
+    hasNextPage?: boolean;
+}
+
+export class SlApiResponseOfPhotosDtoAndObject implements ISlApiResponseOfPhotosDtoAndObject {
+    isError?: boolean;
+    messages?: SlApiMessage[] | undefined;
+    data?: PhotosDto | undefined;
+    metaData?: any | undefined;
+
+    constructor(data?: ISlApiResponseOfPhotosDtoAndObject) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.isError = _data["isError"];
+            if (Array.isArray(_data["messages"])) {
+                this.messages = [] as any;
+                for (let item of _data["messages"])
+                    this.messages!.push(SlApiMessage.fromJS(item));
+            }
+            this.data = _data["data"] ? PhotosDto.fromJS(_data["data"]) : <any>undefined;
+            this.metaData = _data["metaData"];
+        }
+    }
+
+    static fromJS(data: any): SlApiResponseOfPhotosDtoAndObject {
+        data = typeof data === 'object' ? data : {};
+        let result = new SlApiResponseOfPhotosDtoAndObject();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["isError"] = this.isError;
+        if (Array.isArray(this.messages)) {
+            data["messages"] = [];
+            for (let item of this.messages)
+                data["messages"].push(item.toJSON());
+        }
+        data["data"] = this.data ? this.data.toJSON() : <any>undefined;
+        data["metaData"] = this.metaData;
+        return data;
+    }
+}
+
+export interface ISlApiResponseOfPhotosDtoAndObject {
+    isError?: boolean;
+    messages?: SlApiMessage[] | undefined;
+    data?: PhotosDto | undefined;
+    metaData?: any | undefined;
+}
+
+export class SlApiResponseOfPaginatedListOfPowerTypeDtoAndObject implements ISlApiResponseOfPaginatedListOfPowerTypeDtoAndObject {
+    isError?: boolean;
+    messages?: SlApiMessage[] | undefined;
+    data?: PaginatedListOfPowerTypeDto | undefined;
+    metaData?: any | undefined;
+
+    constructor(data?: ISlApiResponseOfPaginatedListOfPowerTypeDtoAndObject) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.isError = _data["isError"];
+            if (Array.isArray(_data["messages"])) {
+                this.messages = [] as any;
+                for (let item of _data["messages"])
+                    this.messages!.push(SlApiMessage.fromJS(item));
+            }
+            this.data = _data["data"] ? PaginatedListOfPowerTypeDto.fromJS(_data["data"]) : <any>undefined;
+            this.metaData = _data["metaData"];
+        }
+    }
+
+    static fromJS(data: any): SlApiResponseOfPaginatedListOfPowerTypeDtoAndObject {
+        data = typeof data === 'object' ? data : {};
+        let result = new SlApiResponseOfPaginatedListOfPowerTypeDtoAndObject();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["isError"] = this.isError;
+        if (Array.isArray(this.messages)) {
+            data["messages"] = [];
+            for (let item of this.messages)
+                data["messages"].push(item.toJSON());
+        }
+        data["data"] = this.data ? this.data.toJSON() : <any>undefined;
+        data["metaData"] = this.metaData;
+        return data;
+    }
+}
+
+export interface ISlApiResponseOfPaginatedListOfPowerTypeDtoAndObject {
+    isError?: boolean;
+    messages?: SlApiMessage[] | undefined;
+    data?: PaginatedListOfPowerTypeDto | undefined;
+    metaData?: any | undefined;
+}
+
+export class PaginatedListOfPowerTypeDto implements IPaginatedListOfPowerTypeDto {
+    items?: PowerTypeDto[] | undefined;
+    pageNumber?: number;
+    totalPages?: number;
+    totalCount?: number;
+    hasPreviousPage?: boolean;
+    hasNextPage?: boolean;
+
+    constructor(data?: IPaginatedListOfPowerTypeDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(PowerTypeDto.fromJS(item));
+            }
+            this.pageNumber = _data["pageNumber"];
+            this.totalPages = _data["totalPages"];
+            this.totalCount = _data["totalCount"];
+            this.hasPreviousPage = _data["hasPreviousPage"];
+            this.hasNextPage = _data["hasNextPage"];
+        }
+    }
+
+    static fromJS(data: any): PaginatedListOfPowerTypeDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PaginatedListOfPowerTypeDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        data["pageNumber"] = this.pageNumber;
+        data["totalPages"] = this.totalPages;
+        data["totalCount"] = this.totalCount;
+        data["hasPreviousPage"] = this.hasPreviousPage;
+        data["hasNextPage"] = this.hasNextPage;
+        return data;
+    }
+}
+
+export interface IPaginatedListOfPowerTypeDto {
+    items?: PowerTypeDto[] | undefined;
+    pageNumber?: number;
+    totalPages?: number;
+    totalCount?: number;
+    hasPreviousPage?: boolean;
+    hasNextPage?: boolean;
+}
+
+export class SlApiResponseOfPowerTypeDtoAndObject implements ISlApiResponseOfPowerTypeDtoAndObject {
+    isError?: boolean;
+    messages?: SlApiMessage[] | undefined;
+    data?: PowerTypeDto | undefined;
+    metaData?: any | undefined;
+
+    constructor(data?: ISlApiResponseOfPowerTypeDtoAndObject) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.isError = _data["isError"];
+            if (Array.isArray(_data["messages"])) {
+                this.messages = [] as any;
+                for (let item of _data["messages"])
+                    this.messages!.push(SlApiMessage.fromJS(item));
+            }
+            this.data = _data["data"] ? PowerTypeDto.fromJS(_data["data"]) : <any>undefined;
+            this.metaData = _data["metaData"];
+        }
+    }
+
+    static fromJS(data: any): SlApiResponseOfPowerTypeDtoAndObject {
+        data = typeof data === 'object' ? data : {};
+        let result = new SlApiResponseOfPowerTypeDtoAndObject();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["isError"] = this.isError;
+        if (Array.isArray(this.messages)) {
+            data["messages"] = [];
+            for (let item of this.messages)
+                data["messages"].push(item.toJSON());
+        }
+        data["data"] = this.data ? this.data.toJSON() : <any>undefined;
+        data["metaData"] = this.metaData;
+        return data;
+    }
+}
+
+export interface ISlApiResponseOfPowerTypeDtoAndObject {
+    isError?: boolean;
+    messages?: SlApiMessage[] | undefined;
+    data?: PowerTypeDto | undefined;
+    metaData?: any | undefined;
+}
+
+export class SlApiResponseOfPaginatedListOfSuitableForDtoAndObject implements ISlApiResponseOfPaginatedListOfSuitableForDtoAndObject {
+    isError?: boolean;
+    messages?: SlApiMessage[] | undefined;
+    data?: PaginatedListOfSuitableForDto | undefined;
+    metaData?: any | undefined;
+
+    constructor(data?: ISlApiResponseOfPaginatedListOfSuitableForDtoAndObject) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.isError = _data["isError"];
+            if (Array.isArray(_data["messages"])) {
+                this.messages = [] as any;
+                for (let item of _data["messages"])
+                    this.messages!.push(SlApiMessage.fromJS(item));
+            }
+            this.data = _data["data"] ? PaginatedListOfSuitableForDto.fromJS(_data["data"]) : <any>undefined;
+            this.metaData = _data["metaData"];
+        }
+    }
+
+    static fromJS(data: any): SlApiResponseOfPaginatedListOfSuitableForDtoAndObject {
+        data = typeof data === 'object' ? data : {};
+        let result = new SlApiResponseOfPaginatedListOfSuitableForDtoAndObject();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["isError"] = this.isError;
+        if (Array.isArray(this.messages)) {
+            data["messages"] = [];
+            for (let item of this.messages)
+                data["messages"].push(item.toJSON());
+        }
+        data["data"] = this.data ? this.data.toJSON() : <any>undefined;
+        data["metaData"] = this.metaData;
+        return data;
+    }
+}
+
+export interface ISlApiResponseOfPaginatedListOfSuitableForDtoAndObject {
+    isError?: boolean;
+    messages?: SlApiMessage[] | undefined;
+    data?: PaginatedListOfSuitableForDto | undefined;
+    metaData?: any | undefined;
+}
+
+export class PaginatedListOfSuitableForDto implements IPaginatedListOfSuitableForDto {
+    items?: SuitableForDto[] | undefined;
+    pageNumber?: number;
+    totalPages?: number;
+    totalCount?: number;
+    hasPreviousPage?: boolean;
+    hasNextPage?: boolean;
+
+    constructor(data?: IPaginatedListOfSuitableForDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(SuitableForDto.fromJS(item));
+            }
+            this.pageNumber = _data["pageNumber"];
+            this.totalPages = _data["totalPages"];
+            this.totalCount = _data["totalCount"];
+            this.hasPreviousPage = _data["hasPreviousPage"];
+            this.hasNextPage = _data["hasNextPage"];
+        }
+    }
+
+    static fromJS(data: any): PaginatedListOfSuitableForDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PaginatedListOfSuitableForDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        data["pageNumber"] = this.pageNumber;
+        data["totalPages"] = this.totalPages;
+        data["totalCount"] = this.totalCount;
+        data["hasPreviousPage"] = this.hasPreviousPage;
+        data["hasNextPage"] = this.hasNextPage;
+        return data;
+    }
+}
+
+export interface IPaginatedListOfSuitableForDto {
+    items?: SuitableForDto[] | undefined;
+    pageNumber?: number;
+    totalPages?: number;
+    totalCount?: number;
+    hasPreviousPage?: boolean;
+    hasNextPage?: boolean;
+}
+
+export class SlApiResponseOfSuitableForDtoAndObject implements ISlApiResponseOfSuitableForDtoAndObject {
+    isError?: boolean;
+    messages?: SlApiMessage[] | undefined;
+    data?: SuitableForDto | undefined;
+    metaData?: any | undefined;
+
+    constructor(data?: ISlApiResponseOfSuitableForDtoAndObject) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.isError = _data["isError"];
+            if (Array.isArray(_data["messages"])) {
+                this.messages = [] as any;
+                for (let item of _data["messages"])
+                    this.messages!.push(SlApiMessage.fromJS(item));
+            }
+            this.data = _data["data"] ? SuitableForDto.fromJS(_data["data"]) : <any>undefined;
+            this.metaData = _data["metaData"];
+        }
+    }
+
+    static fromJS(data: any): SlApiResponseOfSuitableForDtoAndObject {
+        data = typeof data === 'object' ? data : {};
+        let result = new SlApiResponseOfSuitableForDtoAndObject();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["isError"] = this.isError;
+        if (Array.isArray(this.messages)) {
+            data["messages"] = [];
+            for (let item of this.messages)
+                data["messages"].push(item.toJSON());
+        }
+        data["data"] = this.data ? this.data.toJSON() : <any>undefined;
+        data["metaData"] = this.metaData;
+        return data;
+    }
+}
+
+export interface ISlApiResponseOfSuitableForDtoAndObject {
+    isError?: boolean;
+    messages?: SlApiMessage[] | undefined;
+    data?: SuitableForDto | undefined;
     metaData?: any | undefined;
 }
 
