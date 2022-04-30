@@ -1,0 +1,864 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>CleanArchitecture.WebUI</name>
+    </assembly>
+    <members>
+        <member name="T:CleanArchitecture.WebUI.Controllers.ApiControllerBase">
+            <summary>
+            ApiControllerBase controller
+            </summary>
+            <seealso cref="T:Microsoft.AspNetCore.Mvc.ControllerBase" />
+        </member>
+        <member name="P:CleanArchitecture.WebUI.Controllers.ApiControllerBase.Mediator">
+            <summary>
+            Gets the mediator.
+            </summary>
+            <value>
+            The mediator.
+            </value>
+        </member>
+        <member name="T:CleanArchitecture.WebUI.Controllers.V1.AdvertiserInfoController">
+            <summary>
+            AdvertiserInfoController controller
+            </summary>
+            <seealso cref="T:CleanArchitecture.WebUI.Controllers.ApiControllerBase" />
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.AdvertiserInfoController.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:CleanArchitecture.WebUI.Controllers.V1.AdvertiserInfoController"/> class.
+            </summary>
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.AdvertiserInfoController.GetAdvertiserInfoWithPagination(CleanArchitecture.Application.Common.Models.Requests.SlApiPaginationQuery)">
+            <summary>
+            Gets the database AdvertiserInfo with pagination.
+            </summary>
+            <param name="query">The query.</param>
+            <returns>SlApiResponse PaginatedList AdvertiserInfoDto</returns>
+            <response code="200">PaginatedList AdvertiserInfoDto</response>
+            <response code="401">Unauthorized</response>
+            <response code="400">Bad Request</response>
+            <response code="404">Not Found</response>
+            <response code="406">Not Acceptable</response>
+            <response code="500">Internal Server Error</response>
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.AdvertiserInfoController.GetAdvertiserInfoById(System.Int32)">
+            <summary>
+            Gets the specified AdvertiserInfo.
+            </summary>
+            <param name="id"></param>
+            <returns>SlApiResponse AdvertiserInfoDto></returns>
+            <response code = "200" > PaginatedList AdvertiserInfoDto</response>
+            <response code = "401" > Unauthorized </response >
+            <response code= "400" > Bad Request</response>
+            <response code = "404" > Not Found</response>
+            <response code = "406" > Not Acceptable</response>
+            <response code = "500" > Internal Server Error</response>
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.AdvertiserInfoController.UpdateAdvertiserInfo(System.Int32,CleanArchitecture.Domain.DTOs.AdvertiserInfoDto)">
+            <summary>
+            Update the specified AdvertiserInfo
+            </summary>
+            <param name="id"></param>
+            <param name="advertiserInfoDto">AdvertiserInfoDto</param>
+            <returns>SlApiResponse AdvertiserInfoDto</returns>
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.AdvertiserInfoController.CreateAdvertiserInfo(CleanArchitecture.Domain.DTOs.AdvertiserInfoDto)">
+            <summary>
+            Create a new AdvertiserInfo
+            </summary>
+            <param name="advertiserInfoDto">AdvertiserInfoDto</param>
+            <returns>SlApiResponse AdvertiserInfoDto</returns>
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.AdvertiserInfoController.DeleteAdvertiserInfo(System.Int32)">
+            <summary>
+            Delete the specified AdvertiserInfo
+            </summary>
+            <param name="id">int</param>
+            <returns>SlApiResponse AdvertiserInfoDto</returns>
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.AdvertiserInfoController.DisableEnableAdvertiserInfo(System.Int32)">
+            <summary>
+            Virtualy delete the specified AdvertiserInfo
+            </summary>
+            <param name="id">int</param>
+            <returns>SlApiResponse AdvertiserInfoDto</returns>
+        </member>
+        <member name="T:CleanArchitecture.WebUI.Controllers.V1.ClassifiedCharacteristicsController">
+            <summary>
+            ClassifiedCharacteristicsController controller
+            </summary>
+            <seealso cref="T:CleanArchitecture.WebUI.Controllers.ApiControllerBase" />
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.ClassifiedCharacteristicsController.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:CleanArchitecture.WebUI.Controllers.V1.ClassifiedCharacteristicsController"/> class.
+            </summary>
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.ClassifiedCharacteristicsController.GetClassifiedCharacteristicsWithPagination(CleanArchitecture.Application.Common.Models.Requests.SlApiPaginationQuery)">
+            <summary>
+            Gets the database ClassifiedCharacteristics with pagination.
+            </summary>
+            <param name="query">The query.</param>
+            <returns>SlApiResponse PaginatedList ClassifiedCharacteristicsDto</returns>
+            <response code="200">PaginatedList ClassifiedCharacteristicsDto</response>
+            <response code="401">Unauthorized</response>
+            <response code="400">Bad Request</response>
+            <response code="404">Not Found</response>
+            <response code="406">Not Acceptable</response>
+            <response code="500">Internal Server Error</response>
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.ClassifiedCharacteristicsController.GetClassifiedCharacteristicsById(System.Int32)">
+            <summary>
+            Gets the specified ClassifiedCharacteristics.
+            </summary>
+            <param name="id"></param>
+            <returns>SlApiResponse ClassifiedCharacteristicsDto></returns>
+            <response code = "200" > PaginatedList ClassifiedCharacteristicsDto</response>
+            <response code = "401" > Unauthorized </response >
+            <response code= "400" > Bad Request</response>
+            <response code = "404" > Not Found</response>
+            <response code = "406" > Not Acceptable</response>
+            <response code = "500" > Internal Server Error</response>
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.ClassifiedCharacteristicsController.UpdateClassifiedCharacteristics(System.Int32,CleanArchitecture.Domain.DTOs.ClassifiedCharacteristicsDto)">
+            <summary>
+            Update the specified ClassifiedCharacteristics
+            </summary>
+            <param name="id"></param>
+            <param name="ClassifiedCharacteristicsDto">ClassifiedCharacteristicsDto</param>
+            <returns>SlApiResponse ClassifiedCharacteristicsDto</returns>
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.ClassifiedCharacteristicsController.CreateClassifiedCharacteristics(CleanArchitecture.Domain.DTOs.ClassifiedCharacteristicsDto)">
+            <summary>
+            Create a new ClassifiedCharacteristics
+            </summary>
+            <param name="ClassifiedCharacteristicsDto">ClassifiedCharacteristicsDto</param>
+            <returns>SlApiResponse ClassifiedCharacteristicsDto</returns>
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.ClassifiedCharacteristicsController.DeleteClassifiedCharacteristics(System.Int32)">
+            <summary>
+            Delete the specified ClassifiedCharacteristics
+            </summary>
+            <param name="id">int</param>
+            <returns>SlApiResponse ClassifiedCharacteristicsDto</returns>
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.ClassifiedCharacteristicsController.DisableEnableClassifiedCharacteristics(System.Int32)">
+            <summary>
+            Virtualy delete the specified ClassifiedCharacteristics
+            </summary>
+            <param name="id">int</param>
+            <returns>SlApiResponse ClassifiedCharacteristicsDto</returns>
+        </member>
+        <member name="T:CleanArchitecture.WebUI.Controllers.V1.ClassifiedConstructionController">
+            <summary>
+            ClassifiedConstructionController controller
+            </summary>
+            <seealso cref="T:CleanArchitecture.WebUI.Controllers.ApiControllerBase" />
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.ClassifiedConstructionController.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:CleanArchitecture.WebUI.Controllers.V1.ClassifiedConstructionController"/> class.
+            </summary>
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.ClassifiedConstructionController.GetClassifiedConstructionWithPagination(CleanArchitecture.Application.Common.Models.Requests.SlApiPaginationQuery)">
+            <summary>
+            Gets the database ClassifiedConstruction with pagination.
+            </summary>
+            <param name="query">The query.</param>
+            <returns>SlApiResponse PaginatedList ClassifiedConstructionDto</returns>
+            <response code="200">PaginatedList ClassifiedConstructionDto</response>
+            <response code="401">Unauthorized</response>
+            <response code="400">Bad Request</response>
+            <response code="404">Not Found</response>
+            <response code="406">Not Acceptable</response>
+            <response code="500">Internal Server Error</response>
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.ClassifiedConstructionController.GetClassifiedConstructionById(System.Int32)">
+            <summary>
+            Gets the specified ClassifiedConstruction.
+            </summary>
+            <param name="id"></param>
+            <returns>SlApiResponse ClassifiedConstructionDto></returns>
+            <response code = "200" > PaginatedList ClassifiedConstructionDto</response>
+            <response code = "401" > Unauthorized </response >
+            <response code= "400" > Bad Request</response>
+            <response code = "404" > Not Found</response>
+            <response code = "406" > Not Acceptable</response>
+            <response code = "500" > Internal Server Error</response>
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.ClassifiedConstructionController.UpdateClassifiedConstruction(System.Int32,CleanArchitecture.Domain.DTOs.ClassifiedConstructionDto)">
+            <summary>
+            Update the specified ClassifiedConstruction
+            </summary>
+            <param name="id"></param>
+            <param name="ClassifiedConstructionDto">ClassifiedConstructionDto</param>
+            <returns>SlApiResponse ClassifiedConstructionDto</returns>
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.ClassifiedConstructionController.CreateClassifiedConstruction(CleanArchitecture.Domain.DTOs.ClassifiedConstructionDto)">
+            <summary>
+            Create a new ClassifiedConstruction
+            </summary>
+            <param name="ClassifiedConstructionDto">ClassifiedConstructionDto</param>
+            <returns>SlApiResponse ClassifiedConstructionDto</returns>
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.ClassifiedConstructionController.DeleteClassifiedConstruction(System.Int32)">
+            <summary>
+            Delete the specified ClassifiedConstruction
+            </summary>
+            <param name="id">int</param>
+            <returns>SlApiResponse ClassifiedConstructionDto</returns>
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.ClassifiedConstructionController.DisableEnableClassifiedConstruction(System.Int32)">
+            <summary>
+            Virtualy delete the specified ClassifiedConstruction
+            </summary>
+            <param name="id">int</param>
+            <returns>SlApiResponse ClassifiedConstructionDto</returns>
+        </member>
+        <member name="T:CleanArchitecture.WebUI.Controllers.V1.ClassifiedPurposeController">
+            <summary>
+            ClassifiedPurposeController controller
+            </summary>
+            <seealso cref="T:CleanArchitecture.WebUI.Controllers.ApiControllerBase" />
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.ClassifiedPurposeController.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:CleanArchitecture.WebUI.Controllers.V1.ClassifiedPurposeController"/> class.
+            </summary>
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.ClassifiedPurposeController.GetClassifiedPurposeWithPagination(CleanArchitecture.Application.Common.Models.Requests.SlApiPaginationQuery)">
+            <summary>
+            Gets the database ClassifiedPurpose with pagination.
+            </summary>
+            <param name="query">The query.</param>
+            <returns>SlApiResponse PaginatedList ClassifiedPurposeDto</returns>
+            <response code="200">PaginatedList ClassifiedPurposeDto</response>
+            <response code="401">Unauthorized</response>
+            <response code="400">Bad Request</response>
+            <response code="404">Not Found</response>
+            <response code="406">Not Acceptable</response>
+            <response code="500">Internal Server Error</response>
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.ClassifiedPurposeController.GetClassifiedPurposeById(System.Int32)">
+            <summary>
+            Gets the specified ClassifiedPurpose.
+            </summary>
+            <param name="id"></param>
+            <returns>SlApiResponse ClassifiedPurposeDto></returns>
+            <response code = "200" > PaginatedList ClassifiedPurposeDto</response>
+            <response code = "401" > Unauthorized </response >
+            <response code= "400" > Bad Request</response>
+            <response code = "404" > Not Found</response>
+            <response code = "406" > Not Acceptable</response>
+            <response code = "500" > Internal Server Error</response>
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.ClassifiedPurposeController.UpdateClassifiedPurpose(System.Int32,CleanArchitecture.Domain.DTOs.ClassifiedPurposeDto)">
+            <summary>
+            Update the specified ClassifiedPurpose
+            </summary>
+            <param name="id"></param>
+            <param name="ClassifiedPurposeDto">ClassifiedPurposeDto</param>
+            <returns>SlApiResponse ClassifiedPurposeDto</returns>
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.ClassifiedPurposeController.CreateClassifiedPurpose(CleanArchitecture.Domain.DTOs.ClassifiedPurposeDto)">
+            <summary>
+            Create a new ClassifiedPurpose
+            </summary>
+            <param name="ClassifiedPurposeDto">ClassifiedPurposeDto</param>
+            <returns>SlApiResponse ClassifiedPurposeDto</returns>
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.ClassifiedPurposeController.DeleteClassifiedPurpose(System.Int32)">
+            <summary>
+            Delete the specified ClassifiedPurpose
+            </summary>
+            <param name="id">int</param>
+            <returns>SlApiResponse ClassifiedPurposeDto</returns>
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.ClassifiedPurposeController.DisableEnableClassifiedPurpose(System.Int32)">
+            <summary>
+            Virtualy delete the specified ClassifiedPurpose
+            </summary>
+            <param name="id">int</param>
+            <returns>SlApiResponse ClassifiedPurposeDto</returns>
+        </member>
+        <member name="T:CleanArchitecture.WebUI.Controllers.V1.ClassifiedTypeController">
+            <summary>
+            ClassifiedTypeController controller
+            </summary>
+            <seealso cref="T:CleanArchitecture.WebUI.Controllers.ApiControllerBase" />
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.ClassifiedTypeController.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:CleanArchitecture.WebUI.Controllers.V1.ClassifiedTypeController"/> class.
+            </summary>
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.ClassifiedTypeController.GetClassifiedTypeWithPagination(CleanArchitecture.Application.Common.Models.Requests.SlApiPaginationQuery)">
+            <summary>
+            Gets the database ClassifiedType with pagination.
+            </summary>
+            <param name="query">The query.</param>
+            <returns>SlApiResponse PaginatedList ClassifiedTypeDto</returns>
+            <response code="200">PaginatedList ClassifiedTypeDto</response>
+            <response code="401">Unauthorized</response>
+            <response code="400">Bad Request</response>
+            <response code="404">Not Found</response>
+            <response code="406">Not Acceptable</response>
+            <response code="500">Internal Server Error</response>
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.ClassifiedTypeController.GetClassifiedTypeById(System.Int32)">
+            <summary>
+            Gets the specified ClassifiedType.
+            </summary>
+            <param name="id"></param>
+            <returns>SlApiResponse ClassifiedTypeDto></returns>
+            <response code = "200" > PaginatedList ClassifiedTypeDto</response>
+            <response code = "401" > Unauthorized </response >
+            <response code= "400" > Bad Request</response>
+            <response code = "404" > Not Found</response>
+            <response code = "406" > Not Acceptable</response>
+            <response code = "500" > Internal Server Error</response>
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.ClassifiedTypeController.UpdateClassifiedType(System.Int32,CleanArchitecture.Domain.DTOs.ClassifiedTypeDto)">
+            <summary>
+            Update the specified ClassifiedType
+            </summary>
+            <param name="id"></param>
+            <param name="ClassifiedTypeDto">ClassifiedTypeDto</param>
+            <returns>SlApiResponse ClassifiedTypeDto</returns>
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.ClassifiedTypeController.CreateClassifiedType(CleanArchitecture.Domain.DTOs.ClassifiedTypeDto)">
+            <summary>
+            Create a new ClassifiedType
+            </summary>
+            <param name="ClassifiedTypeDto">ClassifiedTypeDto</param>
+            <returns>SlApiResponse ClassifiedTypeDto</returns>
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.ClassifiedTypeController.DeleteClassifiedType(System.Int32)">
+            <summary>
+            Delete the specified ClassifiedType
+            </summary>
+            <param name="id">int</param>
+            <returns>SlApiResponse ClassifiedTypeDto</returns>
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.ClassifiedTypeController.DisableEnableClassifiedType(System.Int32)">
+            <summary>
+            Virtualy delete the specified ClassifiedType
+            </summary>
+            <param name="id">int</param>
+            <returns>SlApiResponse ClassifiedTypeDto</returns>
+        </member>
+        <member name="T:CleanArchitecture.WebUI.Controllers.V1.EnergyClassController">
+            <summary>
+            EnergyClassController controller
+            </summary>
+            <seealso cref="T:CleanArchitecture.WebUI.Controllers.ApiControllerBase" />
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.EnergyClassController.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:CleanArchitecture.WebUI.Controllers.V1.EnergyClassController"/> class.
+            </summary>
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.EnergyClassController.GetEnergyClassWithPagination(CleanArchitecture.Application.Common.Models.Requests.SlApiPaginationQuery)">
+            <summary>
+            Gets the database EnergyClass with pagination.
+            </summary>
+            <param name="query">The query.</param>
+            <returns>SlApiResponse PaginatedList EnergyClassDto</returns>
+            <response code="200">PaginatedList EnergyClassDto</response>
+            <response code="401">Unauthorized</response>
+            <response code="400">Bad Request</response>
+            <response code="404">Not Found</response>
+            <response code="406">Not Acceptable</response>
+            <response code="500">Internal Server Error</response>
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.EnergyClassController.GetEnergyClassById(System.Int32)">
+            <summary>
+            Gets the specified EnergyClass.
+            </summary>
+            <param name="id"></param>
+            <returns>SlApiResponse EnergyClassDto></returns>
+            <response code = "200" > PaginatedList EnergyClassDto</response>
+            <response code = "401" > Unauthorized </response >
+            <response code= "400" > Bad Request</response>
+            <response code = "404" > Not Found</response>
+            <response code = "406" > Not Acceptable</response>
+            <response code = "500" > Internal Server Error</response>
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.EnergyClassController.UpdateEnergyClass(System.Int32,CleanArchitecture.Domain.DTOs.EnergyClassDto)">
+            <summary>
+            Update the specified EnergyClass
+            </summary>
+            <param name="id"></param>
+            <param name="EnergyClassDto">EnergyClassDto</param>
+            <returns>SlApiResponse EnergyClassDto</returns>
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.EnergyClassController.CreateEnergyClass(CleanArchitecture.Domain.DTOs.EnergyClassDto)">
+            <summary>
+            Create a new EnergyClass
+            </summary>
+            <param name="EnergyClassDto">EnergyClassDto</param>
+            <returns>SlApiResponse EnergyClassDto</returns>
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.EnergyClassController.DeleteEnergyClass(System.Int32)">
+            <summary>
+            Delete the specified EnergyClass
+            </summary>
+            <param name="id">int</param>
+            <returns>SlApiResponse EnergyClassDto</returns>
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.EnergyClassController.DisableEnableEnergyClass(System.Int32)">
+            <summary>
+            Virtualy delete the specified EnergyClass
+            </summary>
+            <param name="id">int</param>
+            <returns>SlApiResponse EnergyClassDto</returns>
+        </member>
+        <member name="T:CleanArchitecture.WebUI.Controllers.V1.ExteriorFeatureController">
+            <summary>
+            ExteriorFeatureController controller
+            </summary>
+            <seealso cref="T:CleanArchitecture.WebUI.Controllers.ApiControllerBase" />
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.ExteriorFeatureController.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:CleanArchitecture.WebUI.Controllers.V1.ExteriorFeatureController"/> class.
+            </summary>
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.ExteriorFeatureController.GetExteriorFeatureWithPagination(CleanArchitecture.Application.Common.Models.Requests.SlApiPaginationQuery)">
+            <summary>
+            Gets the database ExteriorFeature with pagination.
+            </summary>
+            <param name="query">The query.</param>
+            <returns>SlApiResponse PaginatedList ExteriorFeatureDto</returns>
+            <response code="200">PaginatedList ExteriorFeatureDto</response>
+            <response code="401">Unauthorized</response>
+            <response code="400">Bad Request</response>
+            <response code="404">Not Found</response>
+            <response code="406">Not Acceptable</response>
+            <response code="500">Internal Server Error</response>
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.ExteriorFeatureController.GetExteriorFeatureById(System.Int32)">
+            <summary>
+            Gets the specified ExteriorFeature.
+            </summary>
+            <param name="id"></param>
+            <returns>SlApiResponse ExteriorFeatureDto></returns>
+            <response code = "200" > PaginatedList ExteriorFeatureDto</response>
+            <response code = "401" > Unauthorized </response >
+            <response code= "400" > Bad Request</response>
+            <response code = "404" > Not Found</response>
+            <response code = "406" > Not Acceptable</response>
+            <response code = "500" > Internal Server Error</response>
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.ExteriorFeatureController.UpdateExteriorFeature(System.Int32,CleanArchitecture.Domain.DTOs.ExteriorFeatureDto)">
+            <summary>
+            Update the specified ExteriorFeature
+            </summary>
+            <param name="id"></param>
+            <param name="ExteriorFeatureDto">ExteriorFeatureDto</param>
+            <returns>SlApiResponse ExteriorFeatureDto</returns>
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.ExteriorFeatureController.CreateExteriorFeature(CleanArchitecture.Domain.DTOs.ExteriorFeatureDto)">
+            <summary>
+            Create a new ExteriorFeature
+            </summary>
+            <param name="ExteriorFeatureDto">ExteriorFeatureDto</param>
+            <returns>SlApiResponse ExteriorFeatureDto</returns>
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.ExteriorFeatureController.DeleteExteriorFeature(System.Int32)">
+            <summary>
+            Delete the specified ExteriorFeature
+            </summary>
+            <param name="id">int</param>
+            <returns>SlApiResponse ExteriorFeatureDto</returns>
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.ExteriorFeatureController.DisableEnableExteriorFeature(System.Int32)">
+            <summary>
+            Virtualy delete the specified ExteriorFeature
+            </summary>
+            <param name="id">int</param>
+            <returns>SlApiResponse ExteriorFeatureDto</returns>
+        </member>
+        <member name="T:CleanArchitecture.WebUI.Controllers.V1.FloorNoController">
+            <summary>
+            FloorNoController controller
+            </summary>
+            <seealso cref="T:CleanArchitecture.WebUI.Controllers.ApiControllerBase" />
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.FloorNoController.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:CleanArchitecture.WebUI.Controllers.V1.FloorNoController"/> class.
+            </summary>
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.FloorNoController.GetFloorNoWithPagination(CleanArchitecture.Application.Common.Models.Requests.SlApiPaginationQuery)">
+            <summary>
+            Gets the database FloorNo with pagination.
+            </summary>
+            <param name="query">The query.</param>
+            <returns>SlApiResponse PaginatedList FloorNoDto</returns>
+            <response code="200">PaginatedList FloorNoDto</response>
+            <response code="401">Unauthorized</response>
+            <response code="400">Bad Request</response>
+            <response code="404">Not Found</response>
+            <response code="406">Not Acceptable</response>
+            <response code="500">Internal Server Error</response>
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.FloorNoController.GetFloorNoById(System.Int32)">
+            <summary>
+            Gets the specified FloorNo.
+            </summary>
+            <param name="id"></param>
+            <returns>SlApiResponse FloorNoDto></returns>
+            <response code = "200" > PaginatedList FloorNoDto</response>
+            <response code = "401" > Unauthorized </response >
+            <response code= "400" > Bad Request</response>
+            <response code = "404" > Not Found</response>
+            <response code = "406" > Not Acceptable</response>
+            <response code = "500" > Internal Server Error</response>
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.FloorNoController.UpdateFloorNo(System.Int32,CleanArchitecture.Domain.DTOs.FloorNoDto)">
+            <summary>
+            Update the specified FloorNo
+            </summary>
+            <param name="id"></param>
+            <param name="FloorNoDto">FloorNoDto</param>
+            <returns>SlApiResponse FloorNoDto</returns>
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.FloorNoController.CreateFloorNo(CleanArchitecture.Domain.DTOs.FloorNoDto)">
+            <summary>
+            Create a new FloorNo
+            </summary>
+            <param name="FloorNoDto">FloorNoDto</param>
+            <returns>SlApiResponse FloorNoDto</returns>
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.FloorNoController.DeleteFloorNo(System.Int32)">
+            <summary>
+            Delete the specified FloorNo
+            </summary>
+            <param name="id">int</param>
+            <returns>SlApiResponse FloorNoDto</returns>
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.FloorNoController.DisableEnableFloorNo(System.Int32)">
+            <summary>
+            Virtualy delete the specified FloorNo
+            </summary>
+            <param name="id">int</param>
+            <returns>SlApiResponse FloorNoDto</returns>
+        </member>
+        <member name="T:CleanArchitecture.WebUI.Controllers.V1.FloorTypeController">
+            <summary>
+            FloorTypeController controller
+            </summary>
+            <seealso cref="T:CleanArchitecture.WebUI.Controllers.ApiControllerBase" />
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.FloorTypeController.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:CleanArchitecture.WebUI.Controllers.V1.FloorTypeController"/> class.
+            </summary>
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.FloorTypeController.GetFloorTypeWithPagination(CleanArchitecture.Application.Common.Models.Requests.SlApiPaginationQuery)">
+            <summary>
+            Gets the database FloorType with pagination.
+            </summary>
+            <param name="query">The query.</param>
+            <returns>SlApiResponse PaginatedList FloorTypeDto</returns>
+            <response code="200">PaginatedList FloorTypeDto</response>
+            <response code="401">Unauthorized</response>
+            <response code="400">Bad Request</response>
+            <response code="404">Not Found</response>
+            <response code="406">Not Acceptable</response>
+            <response code="500">Internal Server Error</response>
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.FloorTypeController.GetFloorTypeById(System.Int32)">
+            <summary>
+            Gets the specified FloorType.
+            </summary>
+            <param name="id"></param>
+            <returns>SlApiResponse FloorTypeDto></returns>
+            <response code = "200" > PaginatedList FloorTypeDto</response>
+            <response code = "401" > Unauthorized </response >
+            <response code= "400" > Bad Request</response>
+            <response code = "404" > Not Found</response>
+            <response code = "406" > Not Acceptable</response>
+            <response code = "500" > Internal Server Error</response>
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.FloorTypeController.UpdateFloorType(System.Int32,CleanArchitecture.Domain.DTOs.FloorTypeDto)">
+            <summary>
+            Update the specified FloorType
+            </summary>
+            <param name="id"></param>
+            <param name="FloorTypeDto">FloorTypeDto</param>
+            <returns>SlApiResponse FloorTypeDto</returns>
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.FloorTypeController.CreateFloorType(CleanArchitecture.Domain.DTOs.FloorTypeDto)">
+            <summary>
+            Create a new FloorType
+            </summary>
+            <param name="FloorTypeDto">FloorTypeDto</param>
+            <returns>SlApiResponse FloorTypeDto</returns>
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.FloorTypeController.DeleteFloorType(System.Int32)">
+            <summary>
+            Delete the specified FloorType
+            </summary>
+            <param name="id">int</param>
+            <returns>SlApiResponse FloorTypeDto</returns>
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.FloorTypeController.DisableEnableFloorType(System.Int32)">
+            <summary>
+            Virtualy delete the specified FloorType
+            </summary>
+            <param name="id">int</param>
+            <returns>SlApiResponse FloorTypeDto</returns>
+        </member>
+        <member name="T:CleanArchitecture.WebUI.Controllers.V1.FrameTypeController">
+            <summary>
+            FrameTypeController controller
+            </summary>
+            <seealso cref="T:CleanArchitecture.WebUI.Controllers.ApiControllerBase" />
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.FrameTypeController.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:CleanArchitecture.WebUI.Controllers.V1.FrameTypeController"/> class.
+            </summary>
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.FrameTypeController.GetFrameTypeWithPagination(CleanArchitecture.Application.Common.Models.Requests.SlApiPaginationQuery)">
+            <summary>
+            Gets the database FrameType with pagination.
+            </summary>
+            <param name="query">The query.</param>
+            <returns>SlApiResponse PaginatedList FrameTypeDto</returns>
+            <response code="200">PaginatedList FrameTypeDto</response>
+            <response code="401">Unauthorized</response>
+            <response code="400">Bad Request</response>
+            <response code="404">Not Found</response>
+            <response code="406">Not Acceptable</response>
+            <response code="500">Internal Server Error</response>
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.FrameTypeController.GetFrameTypeById(System.Int32)">
+            <summary>
+            Gets the specified FrameType.
+            </summary>
+            <param name="id"></param>
+            <returns>SlApiResponse FrameTypeDto></returns>
+            <response code = "200" > PaginatedList FrameTypeDto</response>
+            <response code = "401" > Unauthorized </response >
+            <response code= "400" > Bad Request</response>
+            <response code = "404" > Not Found</response>
+            <response code = "406" > Not Acceptable</response>
+            <response code = "500" > Internal Server Error</response>
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.FrameTypeController.UpdateFrameType(System.Int32,CleanArchitecture.Domain.DTOs.FrameTypeDto)">
+            <summary>
+            Update the specified FrameType
+            </summary>
+            <param name="id"></param>
+            <param name="FrameTypeDto">FrameTypeDto</param>
+            <returns>SlApiResponse FrameTypeDto</returns>
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.FrameTypeController.CreateFrameType(CleanArchitecture.Domain.DTOs.FrameTypeDto)">
+            <summary>
+            Create a new FrameType
+            </summary>
+            <param name="FrameTypeDto">FrameTypeDto</param>
+            <returns>SlApiResponse FrameTypeDto</returns>
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.FrameTypeController.DeleteFrameType(System.Int32)">
+            <summary>
+            Delete the specified FrameType
+            </summary>
+            <param name="id">int</param>
+            <returns>SlApiResponse FrameTypeDto</returns>
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.FrameTypeController.DisableEnableFrameType(System.Int32)">
+            <summary>
+            Virtualy delete the specified FrameType
+            </summary>
+            <param name="id">int</param>
+            <returns>SlApiResponse FrameTypeDto</returns>
+        </member>
+        <member name="T:CleanArchitecture.WebUI.Controllers.V1.GoogleMapPlaceController">
+            <summary>
+            GoogleMapPlaceController controller
+            </summary>
+            <seealso cref="T:CleanArchitecture.WebUI.Controllers.ApiControllerBase" />
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.GoogleMapPlaceController.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:CleanArchitecture.WebUI.Controllers.V1.GoogleMapPlaceController"/> class.
+            </summary>
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.GoogleMapPlaceController.GetGoogleMapPlaceWithPagination(CleanArchitecture.Application.Common.Models.Requests.SlApiPaginationQuery)">
+            <summary>
+            Gets the database GoogleMapPlace with pagination.
+            </summary>
+            <param name="query">The query.</param>
+            <returns>SlApiResponse PaginatedList GoogleMapPlaceDto</returns>
+            <response code="200">PaginatedList GoogleMapPlaceDto</response>
+            <response code="401">Unauthorized</response>
+            <response code="400">Bad Request</response>
+            <response code="404">Not Found</response>
+            <response code="406">Not Acceptable</response>
+            <response code="500">Internal Server Error</response>
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.GoogleMapPlaceController.GetGoogleMapPlaceById(System.Int32)">
+            <summary>
+            Gets the specified GoogleMapPlace.
+            </summary>
+            <param name="id"></param>
+            <returns>SlApiResponse GoogleMapPlaceDto></returns>
+            <response code = "200" > PaginatedList GoogleMapPlaceDto</response>
+            <response code = "401" > Unauthorized </response >
+            <response code= "400" > Bad Request</response>
+            <response code = "404" > Not Found</response>
+            <response code = "406" > Not Acceptable</response>
+            <response code = "500" > Internal Server Error</response>
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.GoogleMapPlaceController.UpdateGoogleMapPlace(System.Int32,CleanArchitecture.Domain.DTOs.GoogleMapPlaceDto)">
+            <summary>
+            Update the specified GoogleMapPlace
+            </summary>
+            <param name="id"></param>
+            <param name="GoogleMapPlaceDto">GoogleMapPlaceDto</param>
+            <returns>SlApiResponse GoogleMapPlaceDto</returns>
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.GoogleMapPlaceController.CreateGoogleMapPlace(CleanArchitecture.Domain.DTOs.GoogleMapPlaceDto)">
+            <summary>
+            Create a new GoogleMapPlace
+            </summary>
+            <param name="GoogleMapPlaceDto">GoogleMapPlaceDto</param>
+            <returns>SlApiResponse GoogleMapPlaceDto</returns>
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.GoogleMapPlaceController.DeleteGoogleMapPlace(System.Int32)">
+            <summary>
+            Delete the specified GoogleMapPlace
+            </summary>
+            <param name="id">int</param>
+            <returns>SlApiResponse GoogleMapPlaceDto</returns>
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.GoogleMapPlaceController.DisableEnableGoogleMapPlace(System.Int32)">
+            <summary>
+            Virtualy delete the specified GoogleMapPlace
+            </summary>
+            <param name="id">int</param>
+            <returns>SlApiResponse GoogleMapPlaceDto</returns>
+        </member>
+        <member name="T:CleanArchitecture.WebUI.Controllers.V1.HeatingSystemController">
+            <summary>
+            HeatingSystemController controller
+            </summary>
+            <seealso cref="T:CleanArchitecture.WebUI.Controllers.ApiControllerBase" />
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.HeatingSystemController.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:CleanArchitecture.WebUI.Controllers.V1.HeatingSystemController"/> class.
+            </summary>
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.HeatingSystemController.GetHeatingSystemWithPagination(CleanArchitecture.Application.Common.Models.Requests.SlApiPaginationQuery)">
+            <summary>
+            Gets the database HeatingSystem with pagination.
+            </summary>
+            <param name="query">The query.</param>
+            <returns>SlApiResponse PaginatedList HeatingSystemDto</returns>
+            <response code="200">PaginatedList HeatingSystemDto</response>
+            <response code="401">Unauthorized</response>
+            <response code="400">Bad Request</response>
+            <response code="404">Not Found</response>
+            <response code="406">Not Acceptable</response>
+            <response code="500">Internal Server Error</response>
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.HeatingSystemController.GetHeatingSystemById(System.Int32)">
+            <summary>
+            Gets the specified HeatingSystem.
+            </summary>
+            <param name="id"></param>
+            <returns>SlApiResponse HeatingSystemDto></returns>
+            <response code = "200" > PaginatedList HeatingSystemDto</response>
+            <response code = "401" > Unauthorized </response >
+            <response code= "400" > Bad Request</response>
+            <response code = "404" > Not Found</response>
+            <response code = "406" > Not Acceptable</response>
+            <response code = "500" > Internal Server Error</response>
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.HeatingSystemController.UpdateHeatingSystem(System.Int32,CleanArchitecture.Domain.DTOs.HeatingSystemDto)">
+            <summary>
+            Update the specified HeatingSystem
+            </summary>
+            <param name="id"></param>
+            <param name="HeatingSystemDto">HeatingSystemDto</param>
+            <returns>SlApiResponse HeatingSystemDto</returns>
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.HeatingSystemController.CreateHeatingSystem(CleanArchitecture.Domain.DTOs.HeatingSystemDto)">
+            <summary>
+            Create a new HeatingSystem
+            </summary>
+            <param name="HeatingSystemDto">HeatingSystemDto</param>
+            <returns>SlApiResponse HeatingSystemDto</returns>
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.HeatingSystemController.DeleteHeatingSystem(System.Int32)">
+            <summary>
+            Delete the specified HeatingSystem
+            </summary>
+            <param name="id">int</param>
+            <returns>SlApiResponse HeatingSystemDto</returns>
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Controllers.V1.HeatingSystemController.DisableEnableHeatingSystem(System.Int32)">
+            <summary>
+            Virtualy delete the specified HeatingSystem
+            </summary>
+            <param name="id">int</param>
+            <returns>SlApiResponse HeatingSystemDto</returns>
+        </member>
+        <member name="T:CleanArchitecture.WebUI.Program">
+            <summary>
+            Program class
+            </summary>
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Program.Main(System.String[])">
+            <summary>
+            Defines the entry point of the application.
+            </summary>
+            <param name="args">The arguments.</param>
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Program.CreateHostBuilder(System.String[])">
+            <summary>
+            Creates the host builder.
+            </summary>
+            <param name="args">The arguments.</param>
+            <returns>IHostBuilder</returns>
+        </member>
+        <member name="T:CleanArchitecture.WebUI.Startup">
+            <summary>
+            Startup class
+            </summary>
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Startup.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Initializes a new instance of the <see cref="T:CleanArchitecture.WebUI.Startup"/> class.
+            </summary>
+            <param name="configuration">The configuration.</param>
+        </member>
+        <member name="P:CleanArchitecture.WebUI.Startup.Configuration">
+            <summary>
+            Gets the configuration.
+            </summary>
+            <value>
+            The configuration.
+            </value>
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Startup.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Configures the services.
+            </summary>
+            <param name="services">The services.</param>
+        </member>
+        <member name="M:CleanArchitecture.WebUI.Startup.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IWebHostEnvironment)">
+            <summary>
+            Configures the specified application.
+            </summary>
+            <param name="app">The application.</param>
+            <param name="env">The env.</param>
+        </member>
+    </members>
+</doc>

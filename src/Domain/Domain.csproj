@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <RootNamespace>CleanArchitecture.Domain</RootNamespace>
+    <AssemblyName>CleanArchitecture.Domain</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="DTOs\Base\**" />
+    <EmbeddedResource Remove="DTOs\Base\**" />
+    <None Remove="DTOs\Base\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="DTOs\ClassifiedCharacteristicsDto.cs~RF6a9051b.TMP" />
+    <None Remove="DTOs\ClassifiedTypeDto.cs~RF4adf435.TMP" />
+    <None Remove="Entities\h2yn113e.v5a~" />
+    <None Remove="Events\TodoItemCompletedEvent.cs_back" />
+    <None Remove="Events\TodoItemCreatedEvent.cs_back" />
+    <None Remove="Events\TodoItemDeletedEvent.cs_back" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Events\TodoItemCompletedEvent.cs_back" />
+    <Compile Include="Events\TodoItemCreatedEvent.cs_back" />
+    <Compile Include="Events\TodoItemDeletedEvent.cs_back" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper.Collection" Version="7.0.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
+
+</Project>

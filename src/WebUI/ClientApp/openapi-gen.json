@@ -1,0 +1,12 @@
+{
+  "$schema": "openapi-gen-schema.json",
+  "input": "http://localhost:5000/api/specification.json",
+  "output": "src/app/api",
+  "enumStyle": "pascal",
+  "ignoreUnusedModels": true,
+  "removeStaleFiles": true,
+  "module": false,
+  "serviceIndex": false,
+  "modelIndex": false,
+  "indexFile": false
+}
